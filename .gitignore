@@ -123,3 +123,9 @@ local.properties
 .sts4-cache/
 
 */Debug/
+*/Release/
+*/Local/
+*compile_commands.json
+
+*/.cache/
+*/.dir-locals.el
