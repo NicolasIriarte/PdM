@@ -43,43 +43,62 @@ static void Error_Handler(void);
 
 /* Private functions ---------------------------------------------------------*/
 
-/**
- * @brief  Main program
- * @param  None
- * @retval None
- */
-int main(void) {
-	/* STM32F4xx HAL library initialization:
-	 - Configure the Flash prefetch
-	 - Systick timer is configured by default as source of time base, but user
-	 can eventually implement his proper time base source (a general purpose
-	 timer for example or other time source), keeping in mind that Time base
-	 duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
-	 handled in milliseconds basis.
-	 - Set NVIC Group Priority to 4
-	 - Low Level Initialization
-	 */
-	HAL_Init();
+// Turn off all three Leds and turn on `wanted_led` for at least `duration_ms`
+static void SwapLedAndSleep(int wanted_led, uint32_t duration_ms) {
+	BSP_LED_Off(LED1);
+	BSP_LED_Off(LED2);
+	BSP_LED_Off(LED3);
 
-	/* Configure the system clock to 180 MHz */
+	BSP_LED_On(wanted_led);
+	HAL_Delay(duration_ms);
+}
+
+enum Direction {
+	Left, Right
+};
+
+int main(void) {
+	HAL_Init();  // Initialize HAL
+
 	SystemClock_Config();
 
-	/* Initialize BSP Leds */
+	// Configure LED pin (GPIOG Pin 13) as output
 	BSP_LED_Init(LED1);
 	BSP_LED_Init(LED2);
 	BSP_LED_Init(LED3);
 
-	// Initialize this variable intentionally to -1 to make the first iteration being zero.
-	int wanted = -1;
+	// Configure button pin (GPIOA Pin 0) as input with interrupt
+	BSP_PB_Init(BUTTON_USER, BUTTON_MODE_GPIO);
+
+	BSP_LED_On(LED1);
+	int same_pulse = -1; // 1=true/0=false
+	int wanted = 0;
+	enum Direction direction = Left;
 	/* Infinite loop */
 	while (1) {
+		uint32_t button_pressed = BSP_PB_GetState(BUTTON_USER);
+		if (button_pressed) {
+			if (same_pulse == -1) {
+				same_pulse = 1;
+				direction = (direction == Left) ? Right : Left;
+			}
+		} else {
+			same_pulse = -1;
+		}
+
+		int selected_led = wanted = (wanted + 1) % 3;
+
 		// This works because the definitions of LED1, LED2 and LED3 are 0, 1 and 2 respectively.
-		wanted = (wanted + 1) % 3;
-		BSP_LED_On(wanted);
+		if (direction == Right) {
+			selected_led = 2 - wanted;
+		}
+
+		BSP_LED_On(selected_led);
 		HAL_Delay(200);
-		BSP_LED_Off(wanted);
+		BSP_LED_Off(selected_led);
 		HAL_Delay(200);
 	}
+
 }
 
 /**
