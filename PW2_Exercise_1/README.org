@@ -1,0 +1,17 @@
+* English
+** Exercise 2
+Utilizar el pulsador azul (USER_BUTTON) para controlar cómo se recorre la
+secuencia de leds.  Cada vez que se presiona el pulsador se debe alternar el
+orden de la secuencia entre:
+
+1 - LED1, LED2, LED3, LED1,... etc.
+2 - LED1, LED3, LED2, LED1,... etc.
+
+* Español
+** Práctica 2:
+Utilizar el pulsador azul (USER_BUTTON) para controlar cómo se recorre la
+secuencia de leds.  Cada vez que se presiona el pulsador se debe alternar el
+orden de la secuencia entre:
+
+1 - LED1, LED2, LED3, LED1,... etc.
+2 - LED1, LED3, LED2, LED1,... etc.
