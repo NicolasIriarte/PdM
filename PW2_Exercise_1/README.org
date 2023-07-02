@@ -1,6 +1,6 @@
 * English
-** Exercise 2
-Implement the helper functions needed to use non-blocking delays in a main.c source file with its corresponding =main.h= header file.
+** Point 1
+Implement the helper functions needed to use non-blocking delays in a =main.c= source file with its corresponding =main.h= header file.
 
 The prototypes of the following functions should be located in =main.h=
 and the statements
@@ -42,9 +42,16 @@ Implementation considerations:
 3. =delayWrite= should allow changing the length of an existing delay.
 
 
+** Point 2
+Implement a program that uses non-blocking delays and makes the three leds of the NUCLEO-F429ZI board blink periodically and independently as follows:
+
+- LED1: 100ms.
+- LED2: 500ms.
+- LED3: 1000ms.
+
 * Español
-** Práctica 1:
-Implementar las funciones auxiliares necesarias para usar retardos no bloqueantes en un archivo fuente main.c con su correspondiente archivo de cabecera =main.h=.
+** Punto 1:
+Implementar las funciones auxiliares necesarias para usar retardos no bloqueantes en un archivo fuente =main.c= con su correspondiente archivo de cabecera =main.h=.
 
 En =main.h= se deben ubicar los prototipos de las siguientes funciones y las declaraciones
 
@@ -84,3 +91,12 @@ Consideraciones para la implementación:
    - Cuando el tiempo se cumple se debe cambiar el flag running a =false=.
 
 3. =delayWrite= debe permitir cambiar el tiempo de duración de un delay existente
+
+
+
+** Punto 2
+Implementar un programa que utilice retardos no bloqueantes y  haga titilar en forma periódica e independiente los tres leds de la placa NUCLEO-F429ZI de la siguiente manera:
+
+- LED1: 100 ms.
+- LED2: 500 ms.
+- LED3: 1000 ms.

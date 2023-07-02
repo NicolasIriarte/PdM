@@ -18,76 +18,182 @@
  ******************************************************************************
  */
 
-/* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
-/** @addtogroup STM32F4xx_HAL_Examples
- * @{
- */
-
-/** @addtogroup UART_Printf
- * @{
- */
-
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-/* UART handler declaration */
 UART_HandleTypeDef UartHandle;
 
-/* Private function prototypes -----------------------------------------------*/
-
+// Forward declarations
 static void SystemClock_Config(void);
 static void Error_Handler(void);
 
-/* Private functions ---------------------------------------------------------*/
-enum Direction {
-	Left, Right
-};
+// Implementations
+void delayInit(delay_t *delay, tick_t duration_ms) {
+	assert(delay != NULL);
+	//delay->startTime = HAL_GetTick();
+	delay->duration = duration_ms;
+	delay->running = false;
+}
+
+bool_t delayRead(delay_t *delay) {
+	assert(delay != NULL);
+	if (!delay->running) {
+		delay->startTime = HAL_GetTick();
+		delay->running = true;
+	}
+
+	bool_t finished = (HAL_GetTick() - delay->startTime) >= delay->duration;
+	if (finished) {
+		delay->running = false;
+		return true;
+	}
+
+	return false;
+}
+
+void delayWrite(delay_t *delay, tick_t duration_ms) {
+	assert(delay != NULL);
+	delay->duration = duration_ms;
+}
+
+/// This is a joke! Lets program a scheduler. Uncomment this line if you want that implementation.
+// #define NEI_SCHEDULER
+
+#ifdef NEI_SCHEDULER
+
+// Define a MAX number of task supported by the scheduler.
+// Defining this variable makes the size of the scheduler defined at
+// compile-time, preventing unexpected mallocs or infinite tasks, which makes
+// debbuging difficult
+#define MAX_TASKS 64
+
+// Helper type to keep track of the added event. Not used by now, but it may be
+// useful if you want to make a change on a task (ex: removing it from the
+// scheduler).
+typedef uint32_t event_id;
+
+// A task is a struct with a callback and a delay for repetitions.
+// delay_t should be a more complex struct if we want to handle scenarios of
+// finite time tasks.
+typedef struct {
+	void (*callback)(delay_t *delay);
+	delay_t delay;
+} task_t;
+
+typedef struct {
+	task_t tasks[MAX_TASKS]; // Fixed size to prevent mallocs
+	// Keep track of how many tasks are active on the scheduler.
+	event_id active_tasks;
+} nei_scheduler_t;
+
+// Init the scheduler, setting the number of active_tasks to zero, and all the
+// defaults pointers to NULL. Also initialize the delay of all tasks to zero.
+
+// IMPORTANT: This function must be called a single time.
+void nei_schedulerInit(nei_scheduler_t *scheduler) {
+	for (int i = 0; i < MAX_TASKS; ++i) {
+		scheduler->tasks[i].callback = NULL; // Be sure to be NULL
+		delayInit(&scheduler->tasks[i].delay, 0); // Grants running = false
+	}
+
+	scheduler->active_tasks = 0;
+}
+
+// Add a periodic event to the scheduler. The callback will be executed each
+// given repeat_interval_ms.
+// returns: 0 if the scheduler is full of tasks and fails to add, or a unique
+//          event_id which identifies the task on the scheduler.
+static event_id nei_schedulerAddPeriodicEvent(nei_scheduler_t *scheduler,
+		void (*callback)(delay_t *delay), tick_t repeat_interval_ms) {
+
+	if (scheduler->active_tasks == MAX_TASKS) {
+		return 0; // Scheduler is full
+	}
+
+	task_t *task = &scheduler->tasks[scheduler->active_tasks];
+
+	task->callback = callback;
+	delayInit(&task->delay, repeat_interval_ms);
+
+	++scheduler->active_tasks; // New task were added
+	return scheduler->active_tasks; // return a unique id of the added task
+}
+
+// Check if any task needs to be executed and do that. This function should be
+// called on every tick of the run. Waiting for tasks is a non-cloking operation
+static int nei_schedulerTick(nei_scheduler_t *scheduler) {
+	int executed_tasks = 0;
+	for (int i = 0; i < scheduler->active_tasks; ++i) {
+		task_t *task = &scheduler->tasks[i];
+		if (delayRead(&task->delay)) {
+			task->callback(&task->delay);
+			++executed_tasks;
+		}
+	}
+	return executed_tasks;
+}
+
+// Define some function to be emplaced on the scheduler. As the exercise is very
+// simple all three functions seems almost equals. On a real-world application
+// the would look very different.
+
+static void toggleLed1(delay_t *_) {
+	BSP_LED_Toggle(LED1);
+}
+
+static void toggleLed2(delay_t *_) {
+	BSP_LED_Toggle(LED2);
+}
+
+static void toggleLed3(delay_t *_) {
+	BSP_LED_Toggle(LED3);
+}
+
+// TODO(Nico): This implementation needs a way to remove events from the
+//             scheduler.  But as is almost a joke, I will add the feature when
+//             I need it.
+
+// Cheers!
+#endif
 
 int main(void) {
 	HAL_Init();  // Initialize HAL
-
 	SystemClock_Config();
 
-	// Configure LED pin (GPIOG Pin 13) as output
+// Configure LED pin (GPIOG Pin 13) as output
 	BSP_LED_Init(LED1);
 	BSP_LED_Init(LED2);
 	BSP_LED_Init(LED3);
 
-	// Configure button pin (GPIOA Pin 0) as input with interrupt
-	BSP_PB_Init(BUTTON_USER, BUTTON_MODE_GPIO);
+#ifndef NEI_SCHEDULER
+// Leds delays
+	delay_t leds_delay[LEDn];
 
-	BSP_LED_On(LED1);
-	int same_pulse = -1; // 1=true/0=false
-	int wanted = 0;
-	enum Direction direction = Left;
+// Init delays
+	delayInit(&leds_delay[0], 100);
+	delayInit(&leds_delay[1], 500);
+	delayInit(&leds_delay[2], 1000);
+
 	/* Infinite loop */
 	while (1) {
-		uint32_t button_pressed = BSP_PB_GetState(BUTTON_USER);
-		if (button_pressed) {
-			if (same_pulse == -1) {
-				same_pulse = 1;
-				direction = (direction == Left) ? Right : Left;
+		for (int led_id = 0; led_id < LEDn; ++led_id) {
+			if (delayRead(&leds_delay[led_id])) {
+				BSP_LED_Toggle(led_id);
 			}
-		} else {
-			same_pulse = -1;
 		}
-
-		// This works because the definitions of LED1, LED2 and LED3 are 0, 1 and 2 respectively.
-		int selected_led = wanted = (wanted + 1) % 3;
-
-		if (direction == Right) {
-			selected_led = 2 - wanted;
-		}
-
-		BSP_LED_On(selected_led);
-		HAL_Delay(200);
-		BSP_LED_Off(selected_led);
-		HAL_Delay(200);
 	}
+#else
+	nei_scheduler_t scheduler;
+	nei_schedulerInit(&scheduler);
 
+	nei_schedulerAddPeriodicEvent(&scheduler, toggleLed1, 100);
+	nei_schedulerAddPeriodicEvent(&scheduler, toggleLed2, 500);
+	nei_schedulerAddPeriodicEvent(&scheduler, toggleLed3, 1000);
+
+	/* Infinite loop */
+	while (1) {
+		nei_schedulerTick(&scheduler);
+	}
+#endif
 }
 
 /**
@@ -186,13 +292,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   }
 }
 #endif
-
-/**
- * @}
- */
-
-/**
- * @}
- */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
