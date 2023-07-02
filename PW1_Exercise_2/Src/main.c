@@ -42,17 +42,6 @@ static void SystemClock_Config(void);
 static void Error_Handler(void);
 
 /* Private functions ---------------------------------------------------------*/
-
-// Turn off all three Leds and turn on `wanted_led` for at least `duration_ms`
-static void SwapLedAndSleep(int wanted_led, uint32_t duration_ms) {
-	BSP_LED_Off(LED1);
-	BSP_LED_Off(LED2);
-	BSP_LED_Off(LED3);
-
-	BSP_LED_On(wanted_led);
-	HAL_Delay(duration_ms);
-}
-
 enum Direction {
 	Left, Right
 };
@@ -86,9 +75,9 @@ int main(void) {
 			same_pulse = -1;
 		}
 
+		// This works because the definitions of LED1, LED2 and LED3 are 0, 1 and 2 respectively.
 		int selected_led = wanted = (wanted + 1) % 3;
 
-		// This works because the definitions of LED1, LED2 and LED3 are 0, 1 and 2 respectively.
 		if (direction == Right) {
 			selected_led = 2 - wanted;
 		}
