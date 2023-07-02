@@ -1,17 +1,86 @@
 * English
 ** Exercise 2
-Utilizar el pulsador azul (USER_BUTTON) para controlar cómo se recorre la
-secuencia de leds.  Cada vez que se presiona el pulsador se debe alternar el
-orden de la secuencia entre:
+Implement the helper functions needed to use non-blocking delays in a main.c source file with its corresponding =main.h= header file.
 
-1 - LED1, LED2, LED3, LED1,... etc.
-2 - LED1, LED3, LED2, LED1,... etc.
+The prototypes of the following functions should be located in =main.h=
+and the statements
+
+#+name: Necessary code
+#+header: :main no
+#+header: :cmdline
+#+begin_src C :noweb strip-export
+  // What library must be included for this to compile?
+  typedef uint32_t tick_t;
+
+  // What library must be included for this to compile?
+  typedef bool bool_t;
+  typedef struct {
+    tick_t startTime;
+    tick_t duration;
+    bool_t running;
+  } delay_t;
+
+  void delayInit(delay_t *delay, tick_t duration);
+  bool_t delayRead(delay_t *delay);
+  void delayWrite(delay_t *delay, tick_t duration);
+#+end_src
+
+In =main.c= you must place the implementation of all the functions:
+Implementation considerations:
+
+1. =delayInit= should load the value of the delay duration into the structure, in the corresponding field. It should not start the delay count. You must initialize the running flag to =false=.
+
+2. =delayRead= should check the status of the running flag.
+   - =false=, take timestamp and change running to =true=
+   - =true=, do the calculation to know if the delay time has expired or not:
+
+   =current timestamp - start timestamp is greater than or equal to delay duration=?
+
+   and return a boolean value that indicates if the time is up or not.
+   - When the time is up, the running flag must be changed to =false=.
+
+3. =delayWrite= should allow changing the length of an existing delay.
+
 
 * Español
-** Práctica 2:
-Utilizar el pulsador azul (USER_BUTTON) para controlar cómo se recorre la
-secuencia de leds.  Cada vez que se presiona el pulsador se debe alternar el
-orden de la secuencia entre:
+** Práctica 1:
+Implementar las funciones auxiliares necesarias para usar retardos no bloqueantes en un archivo fuente main.c con su correspondiente archivo de cabecera =main.h=.
 
-1 - LED1, LED2, LED3, LED1,... etc.
-2 - LED1, LED3, LED2, LED1,... etc.
+En =main.h= se deben ubicar los prototipos de las siguientes funciones y las declaraciones
+
+#+name: Codigo necesario
+#+header: :main no
+#+header: :cmdline
+#+begin_src C :noweb strip-export
+  // Qué biblioteca se debe incluir para que esto compile?
+  typedef uint32_t tick_t;
+
+  // Qué biblioteca se debe incluir para que esto compile?
+  typedef bool bool_t;
+
+  typedef struct {
+    tick_t startTime;
+    tick_t duration;
+    bool_t running;
+  } delay_t;
+
+  void delayInit(delay_t *delay, tick_t duration);
+  bool_t delayRead(delay_t *delay);
+  void delayWrite(delay_t *delay, tick_t duration);
+#+end_src
+
+En =main.c= se deben ubicar la implementación de todas las funciones:
+Consideraciones para la implementación:
+
+1. =delayInit= debe cargar el valor de duración del retardo en la estructura, en el campo correspondiente. No debe iniciar el conteo del retardo. Debe inicializar el flag running en =false=.
+
+2. =delayRead= debe verificar el estado del flag running.
+   - =false=, tomar marca de tiempo y cambiar running a =true=
+   - =true=, hacer la cuenta para saber si el tiempo del retardo se cumplió o no:
+
+=marca de tiempo actual - marca de tiempo inicial es mayor o igual a duración del retardo=?
+
+ y devolver un valor booleano que indique si el tiempo se cumplió o no.
+   - Cuando el tiempo se cumple se debe cambiar el flag running a =false=.
+
+3. =delayWrite= debe permitir cambiar el tiempo de duración de un delay existente
