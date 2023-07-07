@@ -25,8 +25,8 @@
 #include "stm32f4xx_hal.h"  		/* <- HAL include */
 #include "stm32f4xx_nucleo_144.h" 	/* <- BSP include */
 
-#include <stdbool.h> // for uint32_t
-#include <stdint.h> // for bool_t
+#include <stdbool.h> // for bool_t
+#include <stdint.h> // for uint32_t
 
 // What library must be included for this to compile?
 typedef uint32_t tick_t;
