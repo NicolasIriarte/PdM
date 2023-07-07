@@ -159,16 +159,16 @@ int main(void) {
 	HAL_Init();  // Initialize HAL
 	SystemClock_Config();
 
-// Configure LED pin (GPIOG Pin 13) as output
+	// Configure LED pin (GPIOG Pin 13) as output
 	BSP_LED_Init(LED1);
 	BSP_LED_Init(LED2);
 	BSP_LED_Init(LED3);
 
 #ifndef NEI_SCHEDULER
-// Leds delays
+	// Leds delays
 	delay_t leds_delay[LEDn];
 
-// Init delays
+	// Init delays
 	delayInit(&leds_delay[0], 100);
 	delayInit(&leds_delay[1], 500);
 	delayInit(&leds_delay[2], 1000);
