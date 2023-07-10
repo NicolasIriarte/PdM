@@ -138,33 +138,49 @@ int main(void) {
 
 #ifndef NEI_SCHEDULER
 	// Leds delays
-	delay_t leds_delay[LEDn];
+	delay_t delays[3];
 
 	// Init delays
-	delayInit(&leds_delay[0], 100);
-	delayInit(&leds_delay[1], 500);
-	delayInit(&leds_delay[2], 1000);
+	delayInit(&delays[0], 0);
+	delayInit(&delays[1], 200);
+	delayInit(&delays[2], 400);
+
+	bool leds_status[3] = { false, false, false };
+
+	// Comment/Un-comment this line to change order of leds
+//#define PRACTICE1
+#ifdef PRACTICE1
+	uint32_t leds[3] = { LED1, LED2, LED3 };
+#else
+	uint32_t leds[3] = { LED3, LED2, LED1 };
+#endif
 
 	/* Infinite loop */
 	while (1) {
-		for (int led_id = 0; led_id < LEDn; ++led_id) {
-			if (delayRead(&leds_delay[led_id])) {
-				BSP_LED_Toggle(led_id);
+		for (int i = 0; i < 3; ++i) {
+			if (delayRead(&delays[i])) {
+				BSP_LED_Toggle(leds[i]);
+				leds_status[i] = !leds_status[i];
+				if (leds_status[i]) {
+					delayWrite(&delays[i], 200);
+				} else {
+					delayWrite(&delays[i], 600);
+				}
 			}
 		}
 	}
 #else
-	nei_scheduler_t scheduler;
-	nei_schedulerInit(&scheduler);
-
-	nei_schedulerAddPeriodicEvent(&scheduler, toggleLed1, 100);
-	nei_schedulerAddPeriodicEvent(&scheduler, toggleLed2, 500);
-	nei_schedulerAddPeriodicEvent(&scheduler, toggleLed3, 1000);
-
-	/* Infinite loop */
-	while (1) {
-		nei_schedulerTick(&scheduler);
-	}
+//	nei_scheduler_t scheduler;
+//	nei_schedulerInit(&scheduler);
+//
+//	nei_schedulerAddPeriodicEvent(&scheduler, toggleLed1, 100);
+//	nei_schedulerAddPeriodicEvent(&scheduler, toggleLed2, 500);
+//	nei_schedulerAddPeriodicEvent(&scheduler, toggleLed3, 1000);
+//
+//	/* Infinite loop */
+//	while (1) {
+//		nei_schedulerTick(&scheduler);
+//	}
 #endif
 }
 
