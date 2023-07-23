@@ -20,6 +20,7 @@
 
 #include "main.h"
 #include "API_delay.h"
+#include "API_debounce.h"
 
 /**
  * Define the debounce time for the FSM, the button state will be checked at this
@@ -29,36 +30,6 @@
 
 UART_HandleTypeDef UartHandle;
 
-/**
- * SetUp the initial state for the FSM.
- */
-void debounceFSM_init();
-
-/**
- * This function must be called continuosly. It will check the button state and the
- * exposed button state. It will update the state if needed.
- */
-void debounceFSM_update();
-
-/**
- * Both these functions will toggle the led LED1 and LED3 if the button is
- * pressed/released respectively.
- */
-void buttonPressed();
-void buttonReleased();
-
-/**
- * Possible state of the button.
- */
-typedef enum {
-	BUTTON_UP, BUTTON_FALLING, BUTTON_DOWN, BUTTON_RAISING,
-} debounceState_t;
-
-/**
- * Global state of the button.
- */
-static debounceState_t current_state;
-
 // Forward declarations
 static void SystemClock_Config(void);
 static void Error_Handler(void);
@@ -67,101 +38,44 @@ int main(void) {
 	HAL_Init(); // Initialize HAL
 	SystemClock_Config();
 
-	// Configure LED pin (GPIOG Pin 13) as output
-	BSP_LED_Init(LED1);
-	BSP_LED_Init(LED3);
+	BSP_LED_Init(LED2);
 
 	// Configure button pin (GPIOA Pin 0) as input with interrupt
 	BSP_PB_Init(BUTTON_USER, BUTTON_MODE_GPIO);
 
-	// Leds delays
+	// LEDs delays
 	delay_t FSM_delay;
 	delay_t button_pressed_delay;
-	delay_t button_released_delay;
 
 	// Init delays
 	delayInit(&FSM_delay, 0);
 	delayInit(&button_pressed_delay, 0);
-	delayInit(&button_released_delay, 0);
 
 	debounceFSM_init();
 
+	uint32_t current_frequency = 100;
+
 	/* Infinite loop */
 	while (1) {
-
 		if (delayRead(&FSM_delay)) {
 			delayWrite(&FSM_delay, DEBOUNCE_TIME_MS);
 			debounceFSM_update();
 		}
 
 		if (delayRead(&button_pressed_delay)) {
-			delayWrite(&button_pressed_delay, 200);
-			buttonPressed();
+			// Togle frequency if key pressed.
+			if (readKey()) {
+				if (current_frequency == 100) {
+					current_frequency = 500;
+				} else {
+					current_frequency = 100;
+				}
+			}
+
+			BSP_LED_Toggle(LED2);
+			delayWrite(&button_pressed_delay, current_frequency);
 		}
 
-		if (delayRead(&button_released_delay)) {
-			delayWrite(&button_released_delay, 200);
-			buttonReleased();
-		}
-	}
-}
-
-void debounceFSM_init() {
-	current_state = BUTTON_UP;
-}
-
-void debounceFSM_update() {
-	// Check if the button is pressed to update the FSM if necessary.
-	uint32_t is_button_pressed = BSP_PB_GetState(BUTTON_USER);
-
-	/**
-	 * Update the global state as described on the exercise.
-	 */
-	switch (current_state) {
-	case BUTTON_UP:
-		if (is_button_pressed) {
-			current_state = BUTTON_FALLING;
-		}
-		break;
-	case BUTTON_FALLING:
-		if (is_button_pressed) {
-			current_state = BUTTON_DOWN;
-		} else {
-			current_state = BUTTON_UP;
-		}
-		break;
-	case BUTTON_DOWN:
-		if (!is_button_pressed) {
-			current_state = BUTTON_RAISING;
-		}
-		break;
-	case BUTTON_RAISING:
-		if (!is_button_pressed) {
-			current_state = BUTTON_UP;
-		} else {
-			current_state = BUTTON_DOWN;
-		}
-		break;
-	}
-}
-
-void buttonPressed() {
-	if (current_state == BUTTON_DOWN) {
-		BSP_LED_Toggle(LED1);
-	} else if (current_state == BUTTON_UP) {
-		// Catch the edge case where the LED stays turned on when the release sequesce is
-		// active.
-		BSP_LED_Off(LED1);
-	}
-}
-
-void buttonReleased() {
-	if (current_state == BUTTON_UP) {
-		BSP_LED_Toggle(LED3);
-	} else if (current_state == BUTTON_DOWN) {
-		// Catch the edge case where the LED stays turned on when the pressed sequesce is
-		// active.
-		BSP_LED_Off(LED3);
 	}
 }
 
