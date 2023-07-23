@@ -21,12 +21,12 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
+#include "stm32f4xx_hal.h"        /* <- HAL include */
+#include "stm32f4xx_nucleo_144.h" /* <- BSP include */
 #include <stdio.h>
-#include "stm32f4xx_hal.h"  		/* <- HAL include */
-#include "stm32f4xx_nucleo_144.h" 	/* <- BSP include */
 
 #include <stdbool.h> // for bool_t
-#include <stdint.h> // for uint32_t
+#include <stdint.h>  // for uint32_t
 
 // What library must be included for this to compile?
 typedef uint32_t tick_t;
@@ -39,9 +39,9 @@ typedef bool bool_t;
  * provided on this file.
  */
 typedef struct {
-	tick_t startTime;
-	tick_t duration; // Duration on ms
-	bool_t running;
+  tick_t startTime;
+  tick_t duration; // Duration on ms
+  bool_t running;
 } delay_t;
 
 /**
@@ -73,20 +73,20 @@ void delayWrite(delay_t *delay, tick_t duration_ms);
 /* User can use this section to tailor USARTx/UARTx instance used and associated
  resources */
 /* Definition for USARTx clock resources */
-#define USARTx                           USART3
-#define USARTx_CLK_ENABLE()              __HAL_RCC_USART3_CLK_ENABLE();
-#define USARTx_RX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOD_CLK_ENABLE()
-#define USARTx_TX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOD_CLK_ENABLE()
+#define USARTx USART3
+#define USARTx_CLK_ENABLE() __HAL_RCC_USART3_CLK_ENABLE();
+#define USARTx_RX_GPIO_CLK_ENABLE() __HAL_RCC_GPIOD_CLK_ENABLE()
+#define USARTx_TX_GPIO_CLK_ENABLE() __HAL_RCC_GPIOD_CLK_ENABLE()
 
-#define USARTx_FORCE_RESET()             __HAL_RCC_USART3_FORCE_RESET()
-#define USARTx_RELEASE_RESET()           __HAL_RCC_USART3_RELEASE_RESET()
+#define USARTx_FORCE_RESET() __HAL_RCC_USART3_FORCE_RESET()
+#define USARTx_RELEASE_RESET() __HAL_RCC_USART3_RELEASE_RESET()
 
 /* Definition for USARTx Pins */
-#define USARTx_TX_PIN                    GPIO_PIN_8
-#define USARTx_TX_GPIO_PORT              GPIOD
-#define USARTx_TX_AF                     GPIO_AF7_USART3
-#define USARTx_RX_PIN                    GPIO_PIN_9
-#define USARTx_RX_GPIO_PORT              GPIOD
-#define USARTx_RX_AF                     GPIO_AF7_USART3
+#define USARTx_TX_PIN GPIO_PIN_8
+#define USARTx_TX_GPIO_PORT GPIOD
+#define USARTx_TX_AF GPIO_AF7_USART3
+#define USARTx_RX_PIN GPIO_PIN_9
+#define USARTx_RX_GPIO_PORT GPIOD
+#define USARTx_RX_AF GPIO_AF7_USART3
 
 #endif /* __MAIN_H */

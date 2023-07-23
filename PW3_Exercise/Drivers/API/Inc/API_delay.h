@@ -9,7 +9,7 @@
 #define API_INC_API_DELAY_H_
 
 #include <stdbool.h> // for bool_t
-#include <stdint.h> // for uint32_t
+#include <stdint.h>  // for uint32_t
 
 // What library must be included for this to compile?
 typedef uint32_t tick_t;
@@ -22,9 +22,9 @@ typedef bool bool_t;
  * provided on this file.
  */
 typedef struct {
-	tick_t startTime;
-	tick_t duration; // Duration on ms
-	bool_t running;
+  tick_t startTime;
+  tick_t duration; // Duration on ms
+  bool_t running;
 } delay_t;
 
 /**
@@ -52,6 +52,5 @@ bool_t delayRead(delay_t *delay);
  * delayWrite will allow changing the duration time of an existing delay.
  */
 void delayWrite(delay_t *delay, tick_t duration_ms);
-
 
 #endif /* API_INC_API_DELAY_H_ */

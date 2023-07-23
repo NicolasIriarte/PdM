@@ -23,9 +23,12 @@
                      ##### How to use this driver #####
   ==============================================================================
   [..] This driver provides functions to:
-    (#) Configure FMPI2C Analog noise filter using the function HAL_FMPI2CEx_ConfigAnalogFilter()
-    (#) Configure FMPI2C Digital noise filter using the function HAL_FMPI2CEx_ConfigDigitalFilter()
-    (#) Configure the enable or disable of fast mode plus driving capability using the functions :
+    (#) Configure FMPI2C Analog noise filter using the function
+  HAL_FMPI2CEx_ConfigAnalogFilter()
+    (#) Configure FMPI2C Digital noise filter using the function
+  HAL_FMPI2CEx_ConfigDigitalFilter()
+    (#) Configure the enable or disable of fast mode plus driving capability
+  using the functions :
           (++) HAL_FMPI2CEx_EnableFastModePlus()
           (++) HAL_FMPI2CEx_DisableFastModePlus()
   @endverbatim
@@ -47,13 +50,13 @@
 #include "stm32f4xx_hal.h"
 
 /** @addtogroup STM32F4xx_HAL_Driver
-  * @{
-  */
+ * @{
+ */
 
 /** @defgroup FMPI2CEx FMPI2CEx
-  * @brief FMPI2C Extended HAL module driver
-  * @{
-  */
+ * @brief FMPI2C Extended HAL module driver
+ * @{
+ */
 
 #ifdef HAL_FMPI2C_MODULE_ENABLED
 #if defined(FMPI2C_CR1_PE)
@@ -66,8 +69,8 @@
 /* Private functions ---------------------------------------------------------*/
 
 /** @defgroup FMPI2CEx_Exported_Functions FMPI2C Extended Exported Functions
-  * @{
-  */
+ * @{
+ */
 
 /** @defgroup FMPI2CEx_Exported_Functions_Group1 Filter Mode Functions
   * @brief    Filter Mode Functions
@@ -84,20 +87,20 @@
   */
 
 /**
-  * @brief  Configure FMPI2C Analog noise filter.
-  * @param  hfmpi2c Pointer to a FMPI2C_HandleTypeDef structure that contains
-  *                the configuration information for the specified FMPI2Cx peripheral.
-  * @param  AnalogFilter New state of the Analog filter.
-  * @retval HAL status
-  */
-HAL_StatusTypeDef HAL_FMPI2CEx_ConfigAnalogFilter(FMPI2C_HandleTypeDef *hfmpi2c, uint32_t AnalogFilter)
-{
+ * @brief  Configure FMPI2C Analog noise filter.
+ * @param  hfmpi2c Pointer to a FMPI2C_HandleTypeDef structure that contains
+ *                the configuration information for the specified FMPI2Cx
+ * peripheral.
+ * @param  AnalogFilter New state of the Analog filter.
+ * @retval HAL status
+ */
+HAL_StatusTypeDef HAL_FMPI2CEx_ConfigAnalogFilter(FMPI2C_HandleTypeDef *hfmpi2c,
+                                                  uint32_t AnalogFilter) {
   /* Check the parameters */
   assert_param(IS_FMPI2C_ALL_INSTANCE(hfmpi2c->Instance));
   assert_param(IS_FMPI2C_ANALOG_FILTER(AnalogFilter));
 
-  if (hfmpi2c->State == HAL_FMPI2C_STATE_READY)
-  {
+  if (hfmpi2c->State == HAL_FMPI2C_STATE_READY) {
     /* Process Locked */
     __HAL_LOCK(hfmpi2c);
 
@@ -120,30 +123,30 @@ HAL_StatusTypeDef HAL_FMPI2CEx_ConfigAnalogFilter(FMPI2C_HandleTypeDef *hfmpi2c,
     __HAL_UNLOCK(hfmpi2c);
 
     return HAL_OK;
-  }
-  else
-  {
+  } else {
     return HAL_BUSY;
   }
 }
 
 /**
-  * @brief  Configure FMPI2C Digital noise filter.
-  * @param  hfmpi2c Pointer to a FMPI2C_HandleTypeDef structure that contains
-  *                the configuration information for the specified FMPI2Cx peripheral.
-  * @param  DigitalFilter Coefficient of digital noise filter between Min_Data=0x00 and Max_Data=0x0F.
-  * @retval HAL status
-  */
-HAL_StatusTypeDef HAL_FMPI2CEx_ConfigDigitalFilter(FMPI2C_HandleTypeDef *hfmpi2c, uint32_t DigitalFilter)
-{
+ * @brief  Configure FMPI2C Digital noise filter.
+ * @param  hfmpi2c Pointer to a FMPI2C_HandleTypeDef structure that contains
+ *                the configuration information for the specified FMPI2Cx
+ * peripheral.
+ * @param  DigitalFilter Coefficient of digital noise filter between
+ * Min_Data=0x00 and Max_Data=0x0F.
+ * @retval HAL status
+ */
+HAL_StatusTypeDef
+HAL_FMPI2CEx_ConfigDigitalFilter(FMPI2C_HandleTypeDef *hfmpi2c,
+                                 uint32_t DigitalFilter) {
   uint32_t tmpreg;
 
   /* Check the parameters */
   assert_param(IS_FMPI2C_ALL_INSTANCE(hfmpi2c->Instance));
   assert_param(IS_FMPI2C_DIGITAL_FILTER(DigitalFilter));
 
-  if (hfmpi2c->State == HAL_FMPI2C_STATE_READY)
-  {
+  if (hfmpi2c->State == HAL_FMPI2C_STATE_READY) {
     /* Process Locked */
     __HAL_LOCK(hfmpi2c);
 
@@ -172,15 +175,13 @@ HAL_StatusTypeDef HAL_FMPI2CEx_ConfigDigitalFilter(FMPI2C_HandleTypeDef *hfmpi2c
     __HAL_UNLOCK(hfmpi2c);
 
     return HAL_OK;
-  }
-  else
-  {
+  } else {
     return HAL_BUSY;
   }
 }
 /**
-  * @}
-  */
+ * @}
+ */
 
 /** @defgroup FMPI2CEx_Exported_Functions_Group3 Fast Mode Plus Functions
   * @brief    Fast Mode Plus Functions
@@ -197,18 +198,18 @@ HAL_StatusTypeDef HAL_FMPI2CEx_ConfigDigitalFilter(FMPI2C_HandleTypeDef *hfmpi2c
   */
 
 /**
-  * @brief Enable the FMPI2C fast mode plus driving capability.
-  * @param ConfigFastModePlus Selects the pin.
-  *   This parameter can be one of the @ref FMPI2CEx_FastModePlus values
-  * @note  For FMPI2C1, fast mode plus driving capability can be enabled on all selected
-  *        FMPI2C1 pins using FMPI2C_FASTMODEPLUS_FMPI2C1 parameter or independently
-  *        on each one of the following pins PB6, PB7, PB8 and PB9.
-  * @note  For remaining FMPI2C1 pins (PA14, PA15...) fast mode plus driving capability
-  *        can be enabled only by using FMPI2C_FASTMODEPLUS_FMPI2C1 parameter.
-  * @retval None
-  */
-void HAL_FMPI2CEx_EnableFastModePlus(uint32_t ConfigFastModePlus)
-{
+ * @brief Enable the FMPI2C fast mode plus driving capability.
+ * @param ConfigFastModePlus Selects the pin.
+ *   This parameter can be one of the @ref FMPI2CEx_FastModePlus values
+ * @note  For FMPI2C1, fast mode plus driving capability can be enabled on all
+ * selected FMPI2C1 pins using FMPI2C_FASTMODEPLUS_FMPI2C1 parameter or
+ * independently on each one of the following pins PB6, PB7, PB8 and PB9.
+ * @note  For remaining FMPI2C1 pins (PA14, PA15...) fast mode plus driving
+ * capability can be enabled only by using FMPI2C_FASTMODEPLUS_FMPI2C1
+ * parameter.
+ * @retval None
+ */
+void HAL_FMPI2CEx_EnableFastModePlus(uint32_t ConfigFastModePlus) {
   /* Check the parameter */
   assert_param(IS_FMPI2C_FASTMODEPLUS(ConfigFastModePlus));
 
@@ -220,18 +221,18 @@ void HAL_FMPI2CEx_EnableFastModePlus(uint32_t ConfigFastModePlus)
 }
 
 /**
-  * @brief Disable the FMPI2C fast mode plus driving capability.
-  * @param ConfigFastModePlus Selects the pin.
-  *   This parameter can be one of the @ref FMPI2CEx_FastModePlus values
-  * @note  For FMPI2C1, fast mode plus driving capability can be disabled on all selected
-  *        FMPI2C1 pins using FMPI2C_FASTMODEPLUS_FMPI2C1 parameter or independently
-  *        on each one of the following pins PB6, PB7, PB8 and PB9.
-  * @note  For remaining FMPI2C1 pins (PA14, PA15...) fast mode plus driving capability
-  *        can be disabled only by using FMPI2C_FASTMODEPLUS_FMPI2C1 parameter.
-  * @retval None
-  */
-void HAL_FMPI2CEx_DisableFastModePlus(uint32_t ConfigFastModePlus)
-{
+ * @brief Disable the FMPI2C fast mode plus driving capability.
+ * @param ConfigFastModePlus Selects the pin.
+ *   This parameter can be one of the @ref FMPI2CEx_FastModePlus values
+ * @note  For FMPI2C1, fast mode plus driving capability can be disabled on all
+ * selected FMPI2C1 pins using FMPI2C_FASTMODEPLUS_FMPI2C1 parameter or
+ * independently on each one of the following pins PB6, PB7, PB8 and PB9.
+ * @note  For remaining FMPI2C1 pins (PA14, PA15...) fast mode plus driving
+ * capability can be disabled only by using FMPI2C_FASTMODEPLUS_FMPI2C1
+ * parameter.
+ * @retval None
+ */
+void HAL_FMPI2CEx_DisableFastModePlus(uint32_t ConfigFastModePlus) {
   /* Check the parameter */
   assert_param(IS_FMPI2C_FASTMODEPLUS(ConfigFastModePlus));
 
@@ -242,20 +243,20 @@ void HAL_FMPI2CEx_DisableFastModePlus(uint32_t ConfigFastModePlus)
   CLEAR_BIT(SYSCFG->CFGR, (uint32_t)ConfigFastModePlus);
 }
 /**
-  * @}
-  */
+ * @}
+ */
 /**
-  * @}
-  */
+ * @}
+ */
 
 #endif /* FMPI2C_CR1_PE */
 #endif /* HAL_FMPI2C_MODULE_ENABLED */
 /**
-  * @}
-  */
+ * @}
+ */
 
 /**
-  * @}
-  */
+ * @}
+ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

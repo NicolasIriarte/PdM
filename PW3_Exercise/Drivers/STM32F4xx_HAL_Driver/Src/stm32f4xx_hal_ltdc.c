@@ -17,57 +17,66 @@
      [..]
      The LTDC HAL driver can be used as follows:
 
-     (#) Declare a LTDC_HandleTypeDef handle structure, for example: LTDC_HandleTypeDef  hltdc;
+     (#) Declare a LTDC_HandleTypeDef handle structure, for example:
+  LTDC_HandleTypeDef  hltdc;
 
-     (#) Initialize the LTDC low level resources by implementing the HAL_LTDC_MspInit() API:
+     (#) Initialize the LTDC low level resources by implementing the
+  HAL_LTDC_MspInit() API:
          (##) Enable the LTDC interface clock
          (##) NVIC configuration if you need to use interrupt process
              (+++) Configure the LTDC interrupt priority
              (+++) Enable the NVIC LTDC IRQ Channel
 
      (#) Initialize the required configuration through the following parameters:
-         the LTDC timing, the horizontal and vertical polarity, the pixel clock polarity,
-         Data Enable polarity and the LTDC background color value using HAL_LTDC_Init() function
+         the LTDC timing, the horizontal and vertical polarity, the pixel clock
+  polarity, Data Enable polarity and the LTDC background color value using
+  HAL_LTDC_Init() function
 
      *** Configuration ***
      =========================
      [..]
      (#) Program the required configuration through the following parameters:
-         the pixel format, the blending factors, input alpha value, the window size
-         and the image size using HAL_LTDC_ConfigLayer() function for foreground
+         the pixel format, the blending factors, input alpha value, the window
+  size and the image size using HAL_LTDC_ConfigLayer() function for foreground
          or/and background layer.
 
-     (#) Optionally, configure and enable the CLUT using HAL_LTDC_ConfigCLUT() and
-         HAL_LTDC_EnableCLUT functions.
+     (#) Optionally, configure and enable the CLUT using HAL_LTDC_ConfigCLUT()
+  and HAL_LTDC_EnableCLUT functions.
 
      (#) Optionally, enable the Dither using HAL_LTDC_EnableDither().
 
-     (#) Optionally, configure and enable the Color keying using HAL_LTDC_ConfigColorKeying()
-         and HAL_LTDC_EnableColorKeying functions.
+     (#) Optionally, configure and enable the Color keying using
+  HAL_LTDC_ConfigColorKeying() and HAL_LTDC_EnableColorKeying functions.
 
      (#) Optionally, configure LineInterrupt using HAL_LTDC_ProgramLineEvent()
          function
 
-     (#) If needed, reconfigure and change the pixel format value, the alpha value
-         value, the window size, the window position and the layer start address
+     (#) If needed, reconfigure and change the pixel format value, the alpha
+  value value, the window size, the window position and the layer start address
          for foreground or/and background layer using respectively the following
-         functions: HAL_LTDC_SetPixelFormat(), HAL_LTDC_SetAlpha(), HAL_LTDC_SetWindowSize(),
-         HAL_LTDC_SetWindowPosition() and HAL_LTDC_SetAddress().
+         functions: HAL_LTDC_SetPixelFormat(), HAL_LTDC_SetAlpha(),
+  HAL_LTDC_SetWindowSize(), HAL_LTDC_SetWindowPosition() and
+  HAL_LTDC_SetAddress().
 
-     (#) Variant functions with _NoReload suffix allows to set the LTDC configuration/settings without immediate reload.
-         This is useful in case when the program requires to modify serval LTDC settings (on one or both layers)
-         then applying(reload) these settings in one shot by calling the function HAL_LTDC_Reload().
+     (#) Variant functions with _NoReload suffix allows to set the LTDC
+  configuration/settings without immediate reload. This is useful in case when
+  the program requires to modify serval LTDC settings (on one or both layers)
+         then applying(reload) these settings in one shot by calling the
+  function HAL_LTDC_Reload().
 
-         After calling the _NoReload functions to set different color/format/layer settings,
-         the program shall call the function HAL_LTDC_Reload() to apply(reload) these settings.
-         Function HAL_LTDC_Reload() can be called with the parameter ReloadType set to LTDC_RELOAD_IMMEDIATE if
-         an immediate reload is required.
-         Function HAL_LTDC_Reload() can be called with the parameter ReloadType set to LTDC_RELOAD_VERTICAL_BLANKING if
-         the reload should be done in the next vertical blanking period,
-         this option allows to avoid display flicker by applying the new settings during the vertical blanking period.
+         After calling the _NoReload functions to set different
+  color/format/layer settings, the program shall call the function
+  HAL_LTDC_Reload() to apply(reload) these settings. Function HAL_LTDC_Reload()
+  can be called with the parameter ReloadType set to LTDC_RELOAD_IMMEDIATE if an
+  immediate reload is required. Function HAL_LTDC_Reload() can be called with
+  the parameter ReloadType set to LTDC_RELOAD_VERTICAL_BLANKING if the reload
+  should be done in the next vertical blanking period, this option allows to
+  avoid display flicker by applying the new settings during the vertical
+  blanking period.
 
 
-     (#) To control LTDC state you can use the following function: HAL_LTDC_GetState()
+     (#) To control LTDC state you can use the following function:
+  HAL_LTDC_GetState()
 
      *** LTDC HAL driver macros list ***
      =============================================
@@ -83,10 +92,12 @@
       (+) __HAL_LTDC_CLEAR_FLAG: Clear the LTDC pending flags.
       (+) __HAL_LTDC_ENABLE_IT: Enable the specified LTDC interrupts.
       (+) __HAL_LTDC_DISABLE_IT: Disable the specified LTDC interrupts.
-      (+) __HAL_LTDC_GET_IT_SOURCE: Check whether the specified LTDC interrupt has occurred or not.
+      (+) __HAL_LTDC_GET_IT_SOURCE: Check whether the specified LTDC interrupt
+  has occurred or not.
 
      [..]
-       (@) You can refer to the LTDC HAL driver header file for more useful macros
+       (@) You can refer to the LTDC HAL driver header file for more useful
+  macros
 
 
      *** Callback registration ***
@@ -108,10 +119,9 @@
     and a pointer to the user callback function.
 
     [..]
-    Use function HAL_LTDC_UnRegisterCallback() to reset a callback to the default
-    weak function.
-    HAL_LTDC_UnRegisterCallback() takes as parameters the HAL peripheral handle
-    and the callback ID.
+    Use function HAL_LTDC_UnRegisterCallback() to reset a callback to the
+  default weak function. HAL_LTDC_UnRegisterCallback() takes as parameters the
+  HAL peripheral handle and the callback ID.
     [..]
     This function allows to reset following callbacks:
       (+) LineEventCallback   : LTDC Line Event Callback
@@ -121,28 +131,29 @@
       (+) MspDeInitCallback   : LTDC MspDeInit.
 
     [..]
-    By default, after the HAL_LTDC_Init and when the state is HAL_LTDC_STATE_RESET
-    all callbacks are set to the corresponding weak functions:
-    examples HAL_LTDC_LineEventCallback(), HAL_LTDC_ErrorCallback().
+    By default, after the HAL_LTDC_Init and when the state is
+  HAL_LTDC_STATE_RESET all callbacks are set to the corresponding weak
+  functions: examples HAL_LTDC_LineEventCallback(), HAL_LTDC_ErrorCallback().
     Exception done for MspInit and MspDeInit functions that are
-    reset to the legacy weak (surcharged) functions in the HAL_LTDC_Init() and HAL_LTDC_DeInit()
-    only when these callbacks are null (not registered beforehand).
-    If not, MspInit or MspDeInit are not null, the HAL_LTDC_Init() and HAL_LTDC_DeInit()
-    keep and use the user MspInit/MspDeInit callbacks (registered beforehand).
+    reset to the legacy weak (surcharged) functions in the HAL_LTDC_Init() and
+  HAL_LTDC_DeInit() only when these callbacks are null (not registered
+  beforehand). If not, MspInit or MspDeInit are not null, the HAL_LTDC_Init()
+  and HAL_LTDC_DeInit() keep and use the user MspInit/MspDeInit callbacks
+  (registered beforehand).
 
     [..]
     Callbacks can be registered/unregistered in HAL_LTDC_STATE_READY state only.
     Exception done MspInit/MspDeInit that can be registered/unregistered
     in HAL_LTDC_STATE_READY or HAL_LTDC_STATE_RESET state,
-    thus registered (user) MspInit/DeInit callbacks can be used during the Init/DeInit.
-    In that case first register the MspInit/MspDeInit user callbacks
+    thus registered (user) MspInit/DeInit callbacks can be used during the
+  Init/DeInit. In that case first register the MspInit/MspDeInit user callbacks
     using HAL_LTDC_RegisterCallback() before calling HAL_LTDC_DeInit()
     or HAL_LTDC_Init() function.
 
     [..]
     When the compilation define USE_HAL_LTDC_REGISTER_CALLBACKS is set to 0 or
-    not defined, the callback registration feature is not available and all callbacks
-    are set to the corresponding weak functions.
+    not defined, the callback registration feature is not available and all
+  callbacks are set to the corresponding weak functions.
 
   @endverbatim
   ******************************************************************************
@@ -163,32 +174,33 @@
 #include "stm32f4xx_hal.h"
 
 /** @addtogroup STM32F4xx_HAL_Driver
-  * @{
-  */
+ * @{
+ */
 
 #ifdef HAL_LTDC_MODULE_ENABLED
 
-#if defined (LTDC)
+#if defined(LTDC)
 
 /** @defgroup LTDC LTDC
-  * @brief LTDC HAL module driver
-  * @{
-  */
-
+ * @brief LTDC HAL module driver
+ * @{
+ */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-static void LTDC_SetConfig(LTDC_HandleTypeDef *hltdc, LTDC_LayerCfgTypeDef *pLayerCfg, uint32_t LayerIdx);
+static void LTDC_SetConfig(LTDC_HandleTypeDef *hltdc,
+                           LTDC_LayerCfgTypeDef *pLayerCfg, uint32_t LayerIdx);
 /* Private functions ---------------------------------------------------------*/
 
 /** @defgroup LTDC_Exported_Functions LTDC Exported Functions
-  * @{
-  */
+ * @{
+ */
 
-/** @defgroup LTDC_Exported_Functions_Group1 Initialization and Configuration functions
+/** @defgroup LTDC_Exported_Functions_Group1 Initialization and Configuration
+functions
   *  @brief   Initialization and Configuration functions
   *
 @verbatim
@@ -204,18 +216,17 @@ static void LTDC_SetConfig(LTDC_HandleTypeDef *hltdc, LTDC_LayerCfgTypeDef *pLay
   */
 
 /**
-  * @brief  Initialize the LTDC according to the specified parameters in the LTDC_InitTypeDef.
-  * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
-  *                the configuration information for the LTDC.
-  * @retval HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_Init(LTDC_HandleTypeDef *hltdc)
-{
+ * @brief  Initialize the LTDC according to the specified parameters in the
+ * LTDC_InitTypeDef.
+ * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
+ *                the configuration information for the LTDC.
+ * @retval HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_Init(LTDC_HandleTypeDef *hltdc) {
   uint32_t tmp, tmp1;
 
   /* Check the LTDC peripheral state */
-  if (hltdc == NULL)
-  {
+  if (hltdc == NULL) {
     return HAL_ERROR;
   }
 
@@ -235,26 +246,26 @@ HAL_StatusTypeDef HAL_LTDC_Init(LTDC_HandleTypeDef *hltdc)
   assert_param(IS_LTDC_PCPOL(hltdc->Init.PCPolarity));
 
 #if (USE_HAL_LTDC_REGISTER_CALLBACKS == 1)
-  if (hltdc->State == HAL_LTDC_STATE_RESET)
-  {
+  if (hltdc->State == HAL_LTDC_STATE_RESET) {
     /* Allocate lock resource and initialize it */
     hltdc->Lock = HAL_UNLOCKED;
 
     /* Reset the LTDC callback to the legacy weak callbacks */
-    hltdc->LineEventCallback   = HAL_LTDC_LineEventCallback;    /* Legacy weak LineEventCallback    */
-    hltdc->ReloadEventCallback = HAL_LTDC_ReloadEventCallback;  /* Legacy weak ReloadEventCallback  */
-    hltdc->ErrorCallback       = HAL_LTDC_ErrorCallback;        /* Legacy weak ErrorCallback        */
+    hltdc->LineEventCallback =
+        HAL_LTDC_LineEventCallback; /* Legacy weak LineEventCallback    */
+    hltdc->ReloadEventCallback =
+        HAL_LTDC_ReloadEventCallback; /* Legacy weak ReloadEventCallback  */
+    hltdc->ErrorCallback =
+        HAL_LTDC_ErrorCallback; /* Legacy weak ErrorCallback        */
 
-    if (hltdc->MspInitCallback == NULL)
-    {
+    if (hltdc->MspInitCallback == NULL) {
       hltdc->MspInitCallback = HAL_LTDC_MspInit;
     }
     /* Init the low level hardware */
     hltdc->MspInitCallback(hltdc);
   }
 #else
-  if (hltdc->State == HAL_LTDC_STATE_RESET)
-  {
+  if (hltdc->State == HAL_LTDC_STATE_RESET) {
     /* Allocate lock resource and initialize it */
     hltdc->Lock = HAL_UNLOCKED;
     /* Init the low level hardware */
@@ -266,9 +277,11 @@ HAL_StatusTypeDef HAL_LTDC_Init(LTDC_HandleTypeDef *hltdc)
   hltdc->State = HAL_LTDC_STATE_BUSY;
 
   /* Configure the HS, VS, DE and PC polarity */
-  hltdc->Instance->GCR &= ~(LTDC_GCR_HSPOL | LTDC_GCR_VSPOL | LTDC_GCR_DEPOL | LTDC_GCR_PCPOL);
-  hltdc->Instance->GCR |= (uint32_t)(hltdc->Init.HSPolarity | hltdc->Init.VSPolarity | \
-                                     hltdc->Init.DEPolarity | hltdc->Init.PCPolarity);
+  hltdc->Instance->GCR &=
+      ~(LTDC_GCR_HSPOL | LTDC_GCR_VSPOL | LTDC_GCR_DEPOL | LTDC_GCR_PCPOL);
+  hltdc->Instance->GCR |=
+      (uint32_t)(hltdc->Init.HSPolarity | hltdc->Init.VSPolarity |
+                 hltdc->Init.DEPolarity | hltdc->Init.PCPolarity);
 
   /* Set Synchronization size */
   hltdc->Instance->SSCR &= ~(LTDC_SSCR_VSH | LTDC_SSCR_HSW);
@@ -293,7 +306,8 @@ HAL_StatusTypeDef HAL_LTDC_Init(LTDC_HandleTypeDef *hltdc)
   /* Set the background color value */
   tmp = ((uint32_t)(hltdc->Init.Backcolor.Green) << 8U);
   tmp1 = ((uint32_t)(hltdc->Init.Backcolor.Red) << 16U);
-  hltdc->Instance->BCCR &= ~(LTDC_BCCR_BCBLUE | LTDC_BCCR_BCGREEN | LTDC_BCCR_BCRED);
+  hltdc->Instance->BCCR &=
+      ~(LTDC_BCCR_BCBLUE | LTDC_BCCR_BCGREEN | LTDC_BCCR_BCRED);
   hltdc->Instance->BCCR |= (tmp1 | tmp | hltdc->Init.Backcolor.Blue);
 
   /* Enable the Transfer Error and FIFO underrun interrupts */
@@ -312,17 +326,15 @@ HAL_StatusTypeDef HAL_LTDC_Init(LTDC_HandleTypeDef *hltdc)
 }
 
 /**
-  * @brief  De-initialize the LTDC peripheral.
-  * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
-  *                the configuration information for the LTDC.
-  * @retval None
-  */
+ * @brief  De-initialize the LTDC peripheral.
+ * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
+ *                the configuration information for the LTDC.
+ * @retval None
+ */
 
-HAL_StatusTypeDef HAL_LTDC_DeInit(LTDC_HandleTypeDef *hltdc)
-{
+HAL_StatusTypeDef HAL_LTDC_DeInit(LTDC_HandleTypeDef *hltdc) {
 #if (USE_HAL_LTDC_REGISTER_CALLBACKS == 1)
-  if (hltdc->MspDeInitCallback == NULL)
-  {
+  if (hltdc->MspDeInitCallback == NULL) {
     hltdc->MspDeInitCallback = HAL_LTDC_MspDeInit;
   }
   /* DeInit the low level hardware */
@@ -345,13 +357,12 @@ HAL_StatusTypeDef HAL_LTDC_DeInit(LTDC_HandleTypeDef *hltdc)
 }
 
 /**
-  * @brief  Initialize the LTDC MSP.
-  * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
-  *                the configuration information for the LTDC.
-  * @retval None
-  */
-__weak void HAL_LTDC_MspInit(LTDC_HandleTypeDef *hltdc)
-{
+ * @brief  Initialize the LTDC MSP.
+ * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
+ *                the configuration information for the LTDC.
+ * @retval None
+ */
+__weak void HAL_LTDC_MspInit(LTDC_HandleTypeDef *hltdc) {
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hltdc);
 
@@ -361,13 +372,12 @@ __weak void HAL_LTDC_MspInit(LTDC_HandleTypeDef *hltdc)
 }
 
 /**
-  * @brief  De-initialize the LTDC MSP.
-  * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
-  *                the configuration information for the LTDC.
-  * @retval None
-  */
-__weak void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef *hltdc)
-{
+ * @brief  De-initialize the LTDC MSP.
+ * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
+ *                the configuration information for the LTDC.
+ * @retval None
+ */
+__weak void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef *hltdc) {
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hltdc);
 
@@ -378,25 +388,26 @@ __weak void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef *hltdc)
 
 #if (USE_HAL_LTDC_REGISTER_CALLBACKS == 1)
 /**
-  * @brief  Register a User LTDC Callback
-  *         To be used instead of the weak predefined callback
-  * @param hltdc ltdc handle
-  * @param CallbackID ID of the callback to be registered
-  *        This parameter can be one of the following values:
-  *          @arg @ref HAL_LTDC_LINE_EVENT_CB_ID Line Event Callback ID
-  *          @arg @ref HAL_LTDC_RELOAD_EVENT_CB_ID Reload Event Callback ID
-  *          @arg @ref HAL_LTDC_ERROR_CB_ID Error Callback ID
-  *          @arg @ref HAL_LTDC_MSPINIT_CB_ID MspInit callback ID
-  *          @arg @ref HAL_LTDC_MSPDEINIT_CB_ID MspDeInit callback ID
-  * @param pCallback pointer to the Callback function
-  * @retval status
-  */
-HAL_StatusTypeDef HAL_LTDC_RegisterCallback(LTDC_HandleTypeDef *hltdc, HAL_LTDC_CallbackIDTypeDef CallbackID, pLTDC_CallbackTypeDef pCallback)
-{
+ * @brief  Register a User LTDC Callback
+ *         To be used instead of the weak predefined callback
+ * @param hltdc ltdc handle
+ * @param CallbackID ID of the callback to be registered
+ *        This parameter can be one of the following values:
+ *          @arg @ref HAL_LTDC_LINE_EVENT_CB_ID Line Event Callback ID
+ *          @arg @ref HAL_LTDC_RELOAD_EVENT_CB_ID Reload Event Callback ID
+ *          @arg @ref HAL_LTDC_ERROR_CB_ID Error Callback ID
+ *          @arg @ref HAL_LTDC_MSPINIT_CB_ID MspInit callback ID
+ *          @arg @ref HAL_LTDC_MSPDEINIT_CB_ID MspDeInit callback ID
+ * @param pCallback pointer to the Callback function
+ * @retval status
+ */
+HAL_StatusTypeDef
+HAL_LTDC_RegisterCallback(LTDC_HandleTypeDef *hltdc,
+                          HAL_LTDC_CallbackIDTypeDef CallbackID,
+                          pLTDC_CallbackTypeDef pCallback) {
   HAL_StatusTypeDef status = HAL_OK;
 
-  if (pCallback == NULL)
-  {
+  if (pCallback == NULL) {
     /* Update the error code */
     hltdc->ErrorCode |= HAL_LTDC_ERROR_INVALID_CALLBACK;
 
@@ -405,64 +416,57 @@ HAL_StatusTypeDef HAL_LTDC_RegisterCallback(LTDC_HandleTypeDef *hltdc, HAL_LTDC_
   /* Process locked */
   __HAL_LOCK(hltdc);
 
-  if (hltdc->State == HAL_LTDC_STATE_READY)
-  {
-    switch (CallbackID)
-    {
-      case HAL_LTDC_LINE_EVENT_CB_ID :
-        hltdc->LineEventCallback = pCallback;
-        break;
+  if (hltdc->State == HAL_LTDC_STATE_READY) {
+    switch (CallbackID) {
+    case HAL_LTDC_LINE_EVENT_CB_ID:
+      hltdc->LineEventCallback = pCallback;
+      break;
 
-      case HAL_LTDC_RELOAD_EVENT_CB_ID :
-        hltdc->ReloadEventCallback = pCallback;
-        break;
+    case HAL_LTDC_RELOAD_EVENT_CB_ID:
+      hltdc->ReloadEventCallback = pCallback;
+      break;
 
-      case HAL_LTDC_ERROR_CB_ID :
-        hltdc->ErrorCallback = pCallback;
-        break;
+    case HAL_LTDC_ERROR_CB_ID:
+      hltdc->ErrorCallback = pCallback;
+      break;
 
-      case HAL_LTDC_MSPINIT_CB_ID :
-        hltdc->MspInitCallback = pCallback;
-        break;
+    case HAL_LTDC_MSPINIT_CB_ID:
+      hltdc->MspInitCallback = pCallback;
+      break;
 
-      case HAL_LTDC_MSPDEINIT_CB_ID :
-        hltdc->MspDeInitCallback = pCallback;
-        break;
+    case HAL_LTDC_MSPDEINIT_CB_ID:
+      hltdc->MspDeInitCallback = pCallback;
+      break;
 
-      default :
-        /* Update the error code */
-        hltdc->ErrorCode |= HAL_LTDC_ERROR_INVALID_CALLBACK;
-        /* Return error status */
-        status =  HAL_ERROR;
-        break;
+    default:
+      /* Update the error code */
+      hltdc->ErrorCode |= HAL_LTDC_ERROR_INVALID_CALLBACK;
+      /* Return error status */
+      status = HAL_ERROR;
+      break;
     }
-  }
-  else if (hltdc->State == HAL_LTDC_STATE_RESET)
-  {
-    switch (CallbackID)
-    {
-      case HAL_LTDC_MSPINIT_CB_ID :
-        hltdc->MspInitCallback = pCallback;
-        break;
+  } else if (hltdc->State == HAL_LTDC_STATE_RESET) {
+    switch (CallbackID) {
+    case HAL_LTDC_MSPINIT_CB_ID:
+      hltdc->MspInitCallback = pCallback;
+      break;
 
-      case HAL_LTDC_MSPDEINIT_CB_ID :
-        hltdc->MspDeInitCallback = pCallback;
-        break;
+    case HAL_LTDC_MSPDEINIT_CB_ID:
+      hltdc->MspDeInitCallback = pCallback;
+      break;
 
-      default :
-        /* Update the error code */
-        hltdc->ErrorCode |= HAL_LTDC_ERROR_INVALID_CALLBACK;
-        /* Return error status */
-        status =  HAL_ERROR;
-        break;
+    default:
+      /* Update the error code */
+      hltdc->ErrorCode |= HAL_LTDC_ERROR_INVALID_CALLBACK;
+      /* Return error status */
+      status = HAL_ERROR;
+      break;
     }
-  }
-  else
-  {
+  } else {
     /* Update the error code */
     hltdc->ErrorCode |= HAL_LTDC_ERROR_INVALID_CALLBACK;
     /* Return error status */
-    status =  HAL_ERROR;
+    status = HAL_ERROR;
   }
 
   /* Release Lock */
@@ -472,83 +476,84 @@ HAL_StatusTypeDef HAL_LTDC_RegisterCallback(LTDC_HandleTypeDef *hltdc, HAL_LTDC_
 }
 
 /**
-  * @brief  Unregister an LTDC Callback
-  *         LTDC callabck is redirected to the weak predefined callback
-  * @param hltdc ltdc handle
-  * @param CallbackID ID of the callback to be unregistered
-  *        This parameter can be one of the following values:
-  *          @arg @ref HAL_LTDC_LINE_EVENT_CB_ID Line Event Callback ID
-  *          @arg @ref HAL_LTDC_RELOAD_EVENT_CB_ID Reload Event Callback ID
-  *          @arg @ref HAL_LTDC_ERROR_CB_ID Error Callback ID
-  *          @arg @ref HAL_LTDC_MSPINIT_CB_ID MspInit callback ID
-  *          @arg @ref HAL_LTDC_MSPDEINIT_CB_ID MspDeInit callback ID
-  * @retval status
-  */
-HAL_StatusTypeDef HAL_LTDC_UnRegisterCallback(LTDC_HandleTypeDef *hltdc, HAL_LTDC_CallbackIDTypeDef CallbackID)
-{
+ * @brief  Unregister an LTDC Callback
+ *         LTDC callabck is redirected to the weak predefined callback
+ * @param hltdc ltdc handle
+ * @param CallbackID ID of the callback to be unregistered
+ *        This parameter can be one of the following values:
+ *          @arg @ref HAL_LTDC_LINE_EVENT_CB_ID Line Event Callback ID
+ *          @arg @ref HAL_LTDC_RELOAD_EVENT_CB_ID Reload Event Callback ID
+ *          @arg @ref HAL_LTDC_ERROR_CB_ID Error Callback ID
+ *          @arg @ref HAL_LTDC_MSPINIT_CB_ID MspInit callback ID
+ *          @arg @ref HAL_LTDC_MSPDEINIT_CB_ID MspDeInit callback ID
+ * @retval status
+ */
+HAL_StatusTypeDef
+HAL_LTDC_UnRegisterCallback(LTDC_HandleTypeDef *hltdc,
+                            HAL_LTDC_CallbackIDTypeDef CallbackID) {
   HAL_StatusTypeDef status = HAL_OK;
 
   /* Process locked */
   __HAL_LOCK(hltdc);
 
-  if (hltdc->State == HAL_LTDC_STATE_READY)
-  {
-    switch (CallbackID)
-    {
-      case HAL_LTDC_LINE_EVENT_CB_ID :
-        hltdc->LineEventCallback = HAL_LTDC_LineEventCallback;      /* Legacy weak LineEventCallback    */
-        break;
+  if (hltdc->State == HAL_LTDC_STATE_READY) {
+    switch (CallbackID) {
+    case HAL_LTDC_LINE_EVENT_CB_ID:
+      hltdc->LineEventCallback =
+          HAL_LTDC_LineEventCallback; /* Legacy weak LineEventCallback    */
+      break;
 
-      case HAL_LTDC_RELOAD_EVENT_CB_ID :
-        hltdc->ReloadEventCallback = HAL_LTDC_ReloadEventCallback;  /* Legacy weak ReloadEventCallback  */
-        break;
+    case HAL_LTDC_RELOAD_EVENT_CB_ID:
+      hltdc->ReloadEventCallback =
+          HAL_LTDC_ReloadEventCallback; /* Legacy weak ReloadEventCallback  */
+      break;
 
-      case HAL_LTDC_ERROR_CB_ID :
-        hltdc->ErrorCallback       = HAL_LTDC_ErrorCallback;        /* Legacy weak ErrorCallback        */
-        break;
+    case HAL_LTDC_ERROR_CB_ID:
+      hltdc->ErrorCallback =
+          HAL_LTDC_ErrorCallback; /* Legacy weak ErrorCallback        */
+      break;
 
-      case HAL_LTDC_MSPINIT_CB_ID :
-        hltdc->MspInitCallback = HAL_LTDC_MspInit;                  /* Legcay weak MspInit Callback     */
-        break;
+    case HAL_LTDC_MSPINIT_CB_ID:
+      hltdc->MspInitCallback =
+          HAL_LTDC_MspInit; /* Legcay weak MspInit Callback     */
+      break;
 
-      case HAL_LTDC_MSPDEINIT_CB_ID :
-        hltdc->MspDeInitCallback = HAL_LTDC_MspDeInit;              /* Legcay weak MspDeInit Callback     */
-        break;
+    case HAL_LTDC_MSPDEINIT_CB_ID:
+      hltdc->MspDeInitCallback =
+          HAL_LTDC_MspDeInit; /* Legcay weak MspDeInit Callback     */
+      break;
 
-      default :
-        /* Update the error code */
-        hltdc->ErrorCode |= HAL_LTDC_ERROR_INVALID_CALLBACK;
-        /* Return error status */
-        status =  HAL_ERROR;
-        break;
+    default:
+      /* Update the error code */
+      hltdc->ErrorCode |= HAL_LTDC_ERROR_INVALID_CALLBACK;
+      /* Return error status */
+      status = HAL_ERROR;
+      break;
     }
-  }
-  else if (hltdc->State == HAL_LTDC_STATE_RESET)
-  {
-    switch (CallbackID)
-    {
-      case HAL_LTDC_MSPINIT_CB_ID :
-        hltdc->MspInitCallback = HAL_LTDC_MspInit;                  /* Legcay weak MspInit Callback     */
-        break;
+  } else if (hltdc->State == HAL_LTDC_STATE_RESET) {
+    switch (CallbackID) {
+    case HAL_LTDC_MSPINIT_CB_ID:
+      hltdc->MspInitCallback =
+          HAL_LTDC_MspInit; /* Legcay weak MspInit Callback     */
+      break;
 
-      case HAL_LTDC_MSPDEINIT_CB_ID :
-        hltdc->MspDeInitCallback = HAL_LTDC_MspDeInit;              /* Legcay weak MspDeInit Callback     */
-        break;
+    case HAL_LTDC_MSPDEINIT_CB_ID:
+      hltdc->MspDeInitCallback =
+          HAL_LTDC_MspDeInit; /* Legcay weak MspDeInit Callback     */
+      break;
 
-      default :
-        /* Update the error code */
-        hltdc->ErrorCode |= HAL_LTDC_ERROR_INVALID_CALLBACK;
-        /* Return error status */
-        status =  HAL_ERROR;
-        break;
+    default:
+      /* Update the error code */
+      hltdc->ErrorCode |= HAL_LTDC_ERROR_INVALID_CALLBACK;
+      /* Return error status */
+      status = HAL_ERROR;
+      break;
     }
-  }
-  else
-  {
+  } else {
     /* Update the error code */
     hltdc->ErrorCode |= HAL_LTDC_ERROR_INVALID_CALLBACK;
     /* Return error status */
-    status =  HAL_ERROR;
+    status = HAL_ERROR;
   }
 
   /* Release Lock */
@@ -559,8 +564,8 @@ HAL_StatusTypeDef HAL_LTDC_UnRegisterCallback(LTDC_HandleTypeDef *hltdc, HAL_LTD
 #endif /* USE_HAL_LTDC_REGISTER_CALLBACKS */
 
 /**
-  * @}
-  */
+ * @}
+ */
 
 /** @defgroup LTDC_Exported_Functions_Group2 IO operation functions
   *  @brief   IO operation functions
@@ -576,19 +581,19 @@ HAL_StatusTypeDef HAL_LTDC_UnRegisterCallback(LTDC_HandleTypeDef *hltdc, HAL_LTD
   * @{
   */
 /**
-  * @brief  Handle LTDC interrupt request.
-  * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
-  *                the configuration information for the LTDC.
-  * @retval HAL status
-  */
-void HAL_LTDC_IRQHandler(LTDC_HandleTypeDef *hltdc)
-{
-  uint32_t isrflags  = READ_REG(hltdc->Instance->ISR);
+ * @brief  Handle LTDC interrupt request.
+ * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
+ *                the configuration information for the LTDC.
+ * @retval HAL status
+ */
+void HAL_LTDC_IRQHandler(LTDC_HandleTypeDef *hltdc) {
+  uint32_t isrflags = READ_REG(hltdc->Instance->ISR);
   uint32_t itsources = READ_REG(hltdc->Instance->IER);
 
-  /* Transfer Error Interrupt management ***************************************/
-  if (((isrflags & LTDC_ISR_TERRIF) != 0U) && ((itsources & LTDC_IER_TERRIE) != 0U))
-  {
+  /* Transfer Error Interrupt management
+   * ***************************************/
+  if (((isrflags & LTDC_ISR_TERRIF) != 0U) &&
+      ((itsources & LTDC_IER_TERRIE) != 0U)) {
     /* Disable the transfer Error interrupt */
     __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_TE);
 
@@ -615,8 +620,8 @@ void HAL_LTDC_IRQHandler(LTDC_HandleTypeDef *hltdc)
   }
 
   /* FIFO underrun Interrupt management ***************************************/
-  if (((isrflags & LTDC_ISR_FUIF) != 0U) && ((itsources & LTDC_IER_FUIE) != 0U))
-  {
+  if (((isrflags & LTDC_ISR_FUIF) != 0U) &&
+      ((itsources & LTDC_IER_FUIE) != 0U)) {
     /* Disable the FIFO underrun interrupt */
     __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_FU);
 
@@ -643,8 +648,7 @@ void HAL_LTDC_IRQHandler(LTDC_HandleTypeDef *hltdc)
   }
 
   /* Line Interrupt management ************************************************/
-  if (((isrflags & LTDC_ISR_LIF) != 0U) && ((itsources & LTDC_IER_LIE) != 0U))
-  {
+  if (((isrflags & LTDC_ISR_LIF) != 0U) && ((itsources & LTDC_IER_LIE) != 0U)) {
     /* Disable the Line interrupt */
     __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_LI);
 
@@ -667,9 +671,10 @@ void HAL_LTDC_IRQHandler(LTDC_HandleTypeDef *hltdc)
 #endif /* USE_HAL_LTDC_REGISTER_CALLBACKS */
   }
 
-  /* Register reload Interrupt management ***************************************/
-  if (((isrflags & LTDC_ISR_RRIF) != 0U) && ((itsources & LTDC_IER_RRIE) != 0U))
-  {
+  /* Register reload Interrupt management
+   * ***************************************/
+  if (((isrflags & LTDC_ISR_RRIF) != 0U) &&
+      ((itsources & LTDC_IER_RRIE) != 0U)) {
     /* Disable the register reload interrupt */
     __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_RR);
 
@@ -694,13 +699,12 @@ void HAL_LTDC_IRQHandler(LTDC_HandleTypeDef *hltdc)
 }
 
 /**
-  * @brief  Error LTDC callback.
-  * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
-  *                the configuration information for the LTDC.
-  * @retval None
-  */
-__weak void HAL_LTDC_ErrorCallback(LTDC_HandleTypeDef *hltdc)
-{
+ * @brief  Error LTDC callback.
+ * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
+ *                the configuration information for the LTDC.
+ * @retval None
+ */
+__weak void HAL_LTDC_ErrorCallback(LTDC_HandleTypeDef *hltdc) {
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hltdc);
 
@@ -710,13 +714,12 @@ __weak void HAL_LTDC_ErrorCallback(LTDC_HandleTypeDef *hltdc)
 }
 
 /**
-  * @brief  Line Event callback.
-  * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
-  *                the configuration information for the LTDC.
-  * @retval None
-  */
-__weak void HAL_LTDC_LineEventCallback(LTDC_HandleTypeDef *hltdc)
-{
+ * @brief  Line Event callback.
+ * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
+ *                the configuration information for the LTDC.
+ * @retval None
+ */
+__weak void HAL_LTDC_LineEventCallback(LTDC_HandleTypeDef *hltdc) {
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hltdc);
 
@@ -726,24 +729,24 @@ __weak void HAL_LTDC_LineEventCallback(LTDC_HandleTypeDef *hltdc)
 }
 
 /**
-  * @brief  Reload Event callback.
-  * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
-  *                the configuration information for the LTDC.
-  * @retval None
-  */
-__weak void HAL_LTDC_ReloadEventCallback(LTDC_HandleTypeDef *hltdc)
-{
+ * @brief  Reload Event callback.
+ * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
+ *                the configuration information for the LTDC.
+ * @retval None
+ */
+__weak void HAL_LTDC_ReloadEventCallback(LTDC_HandleTypeDef *hltdc) {
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hltdc);
 
   /* NOTE : This function should not be modified, when the callback is needed,
-            the HAL_LTDC_ReloadEvenCallback could be implemented in the user file
+            the HAL_LTDC_ReloadEvenCallback could be implemented in the user
+     file
    */
 }
 
 /**
-  * @}
-  */
+ * @}
+ */
 
 /** @defgroup LTDC_Exported_Functions_Group3 Peripheral Control functions
   *  @brief    Peripheral Control functions
@@ -770,19 +773,20 @@ __weak void HAL_LTDC_ReloadEventCallback(LTDC_HandleTypeDef *hltdc)
   */
 
 /**
-  * @brief  Configure the LTDC Layer according to the specified
-  *         parameters in the LTDC_InitTypeDef and create the associated handle.
-  * @param  hltdc      pointer to a LTDC_HandleTypeDef structure that contains
-  *                    the configuration information for the LTDC.
-  * @param  pLayerCfg  pointer to a LTDC_LayerCfgTypeDef structure that contains
-  *                    the configuration information for the Layer.
-  * @param  LayerIdx  LTDC Layer index.
-  *                    This parameter can be one of the following values:
-  *                    LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_ConfigLayer(LTDC_HandleTypeDef *hltdc, LTDC_LayerCfgTypeDef *pLayerCfg, uint32_t LayerIdx)
-{
+ * @brief  Configure the LTDC Layer according to the specified
+ *         parameters in the LTDC_InitTypeDef and create the associated handle.
+ * @param  hltdc      pointer to a LTDC_HandleTypeDef structure that contains
+ *                    the configuration information for the LTDC.
+ * @param  pLayerCfg  pointer to a LTDC_LayerCfgTypeDef structure that contains
+ *                    the configuration information for the Layer.
+ * @param  LayerIdx  LTDC Layer index.
+ *                    This parameter can be one of the following values:
+ *                    LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_ConfigLayer(LTDC_HandleTypeDef *hltdc,
+                                       LTDC_LayerCfgTypeDef *pLayerCfg,
+                                       uint32_t LayerIdx) {
   /* Check the parameters */
   assert_param(IS_LTDC_LAYER(LayerIdx));
   assert_param(IS_LTDC_HCONFIGST(pLayerCfg->WindowX0));
@@ -813,7 +817,7 @@ HAL_StatusTypeDef HAL_LTDC_ConfigLayer(LTDC_HandleTypeDef *hltdc, LTDC_LayerCfgT
   hltdc->Instance->SRCR = LTDC_SRCR_IMR;
 
   /* Initialize the LTDC state*/
-  hltdc->State  = HAL_LTDC_STATE_READY;
+  hltdc->State = HAL_LTDC_STATE_READY;
 
   /* Process unlocked */
   __HAL_UNLOCK(hltdc);
@@ -822,17 +826,18 @@ HAL_StatusTypeDef HAL_LTDC_ConfigLayer(LTDC_HandleTypeDef *hltdc, LTDC_LayerCfgT
 }
 
 /**
-  * @brief  Configure the color keying.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  RGBValue  the color key value
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_ConfigColorKeying(LTDC_HandleTypeDef *hltdc, uint32_t RGBValue, uint32_t LayerIdx)
-{
+ * @brief  Configure the color keying.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  RGBValue  the color key value
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_ConfigColorKeying(LTDC_HandleTypeDef *hltdc,
+                                             uint32_t RGBValue,
+                                             uint32_t LayerIdx) {
   /* Check the parameters */
   assert_param(IS_LTDC_LAYER(LayerIdx));
 
@@ -843,8 +848,9 @@ HAL_StatusTypeDef HAL_LTDC_ConfigColorKeying(LTDC_HandleTypeDef *hltdc, uint32_t
   hltdc->State = HAL_LTDC_STATE_BUSY;
 
   /* Configure the default color values */
-  LTDC_LAYER(hltdc, LayerIdx)->CKCR &=  ~(LTDC_LxCKCR_CKBLUE | LTDC_LxCKCR_CKGREEN | LTDC_LxCKCR_CKRED);
-  LTDC_LAYER(hltdc, LayerIdx)->CKCR  = RGBValue;
+  LTDC_LAYER(hltdc, LayerIdx)->CKCR &=
+      ~(LTDC_LxCKCR_CKBLUE | LTDC_LxCKCR_CKGREEN | LTDC_LxCKCR_CKRED);
+  LTDC_LAYER(hltdc, LayerIdx)->CKCR = RGBValue;
 
   /* Set the Immediate Reload type */
   hltdc->Instance->SRCR = LTDC_SRCR_IMR;
@@ -859,18 +865,19 @@ HAL_StatusTypeDef HAL_LTDC_ConfigColorKeying(LTDC_HandleTypeDef *hltdc, uint32_t
 }
 
 /**
-  * @brief  Load the color lookup table.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  pCLUT     pointer to the color lookup table address.
-  * @param  CLUTSize  the color lookup table size.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_ConfigCLUT(LTDC_HandleTypeDef *hltdc, uint32_t *pCLUT, uint32_t CLUTSize, uint32_t LayerIdx)
-{
+ * @brief  Load the color lookup table.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  pCLUT     pointer to the color lookup table address.
+ * @param  CLUTSize  the color lookup table size.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_ConfigCLUT(LTDC_HandleTypeDef *hltdc,
+                                      uint32_t *pCLUT, uint32_t CLUTSize,
+                                      uint32_t LayerIdx) {
   uint32_t tmp;
   uint32_t counter;
   uint32_t *pcolorlut = pCLUT;
@@ -883,21 +890,22 @@ HAL_StatusTypeDef HAL_LTDC_ConfigCLUT(LTDC_HandleTypeDef *hltdc, uint32_t *pCLUT
   /* Change LTDC peripheral state */
   hltdc->State = HAL_LTDC_STATE_BUSY;
 
-  for (counter = 0U; (counter < CLUTSize); counter++)
-  {
-    if (hltdc->LayerCfg[LayerIdx].PixelFormat == LTDC_PIXEL_FORMAT_AL44)
-    {
-      tmp  = (((counter + (16U*counter)) << 24U) | ((uint32_t)(*pcolorlut) & 0xFFU) | ((uint32_t)(*pcolorlut) & 0xFF00U) | ((uint32_t)(*pcolorlut) & 0xFF0000U));
-    }
-    else
-    {
-      tmp  = ((counter << 24U) | ((uint32_t)(*pcolorlut) & 0xFFU) | ((uint32_t)(*pcolorlut) & 0xFF00U) | ((uint32_t)(*pcolorlut) & 0xFF0000U));
+  for (counter = 0U; (counter < CLUTSize); counter++) {
+    if (hltdc->LayerCfg[LayerIdx].PixelFormat == LTDC_PIXEL_FORMAT_AL44) {
+      tmp = (((counter + (16U * counter)) << 24U) |
+             ((uint32_t)(*pcolorlut) & 0xFFU) |
+             ((uint32_t)(*pcolorlut) & 0xFF00U) |
+             ((uint32_t)(*pcolorlut) & 0xFF0000U));
+    } else {
+      tmp = ((counter << 24U) | ((uint32_t)(*pcolorlut) & 0xFFU) |
+             ((uint32_t)(*pcolorlut) & 0xFF00U) |
+             ((uint32_t)(*pcolorlut) & 0xFF0000U));
     }
 
     pcolorlut++;
 
     /* Specifies the C-LUT address and RGB value */
-    LTDC_LAYER(hltdc, LayerIdx)->CLUTWR  = tmp;
+    LTDC_LAYER(hltdc, LayerIdx)->CLUTWR = tmp;
   }
 
   /* Change the LTDC state*/
@@ -910,16 +918,16 @@ HAL_StatusTypeDef HAL_LTDC_ConfigCLUT(LTDC_HandleTypeDef *hltdc, uint32_t *pCLUT
 }
 
 /**
-  * @brief  Enable the color keying.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_EnableColorKeying(LTDC_HandleTypeDef *hltdc, uint32_t LayerIdx)
-{
+ * @brief  Enable the color keying.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_EnableColorKeying(LTDC_HandleTypeDef *hltdc,
+                                             uint32_t LayerIdx) {
   /* Check the parameters */
   assert_param(IS_LTDC_LAYER(LayerIdx));
 
@@ -945,16 +953,16 @@ HAL_StatusTypeDef HAL_LTDC_EnableColorKeying(LTDC_HandleTypeDef *hltdc, uint32_t
 }
 
 /**
-  * @brief  Disable the color keying.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_DisableColorKeying(LTDC_HandleTypeDef *hltdc, uint32_t LayerIdx)
-{
+ * @brief  Disable the color keying.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_DisableColorKeying(LTDC_HandleTypeDef *hltdc,
+                                              uint32_t LayerIdx) {
   /* Check the parameters */
   assert_param(IS_LTDC_LAYER(LayerIdx));
 
@@ -980,16 +988,16 @@ HAL_StatusTypeDef HAL_LTDC_DisableColorKeying(LTDC_HandleTypeDef *hltdc, uint32_
 }
 
 /**
-  * @brief  Enable the color lookup table.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_EnableCLUT(LTDC_HandleTypeDef *hltdc, uint32_t LayerIdx)
-{
+ * @brief  Enable the color lookup table.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_EnableCLUT(LTDC_HandleTypeDef *hltdc,
+                                      uint32_t LayerIdx) {
   /* Check the parameters */
   assert_param(IS_LTDC_LAYER(LayerIdx));
 
@@ -1015,16 +1023,16 @@ HAL_StatusTypeDef HAL_LTDC_EnableCLUT(LTDC_HandleTypeDef *hltdc, uint32_t LayerI
 }
 
 /**
-  * @brief  Disable the color lookup table.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_DisableCLUT(LTDC_HandleTypeDef *hltdc, uint32_t LayerIdx)
-{
+ * @brief  Disable the color lookup table.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_DisableCLUT(LTDC_HandleTypeDef *hltdc,
+                                       uint32_t LayerIdx) {
   /* Check the parameters */
   assert_param(IS_LTDC_LAYER(LayerIdx));
 
@@ -1050,14 +1058,13 @@ HAL_StatusTypeDef HAL_LTDC_DisableCLUT(LTDC_HandleTypeDef *hltdc, uint32_t Layer
 }
 
 /**
-  * @brief  Enable Dither.
-  * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
-  *                the configuration information for the LTDC.
-  * @retval  HAL status
-  */
+ * @brief  Enable Dither.
+ * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
+ *                the configuration information for the LTDC.
+ * @retval  HAL status
+ */
 
-HAL_StatusTypeDef HAL_LTDC_EnableDither(LTDC_HandleTypeDef *hltdc)
-{
+HAL_StatusTypeDef HAL_LTDC_EnableDither(LTDC_HandleTypeDef *hltdc) {
   /* Process locked */
   __HAL_LOCK(hltdc);
 
@@ -1077,14 +1084,13 @@ HAL_StatusTypeDef HAL_LTDC_EnableDither(LTDC_HandleTypeDef *hltdc)
 }
 
 /**
-  * @brief  Disable Dither.
-  * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
-  *                the configuration information for the LTDC.
-  * @retval  HAL status
-  */
+ * @brief  Disable Dither.
+ * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
+ *                the configuration information for the LTDC.
+ * @retval  HAL status
+ */
 
-HAL_StatusTypeDef HAL_LTDC_DisableDither(LTDC_HandleTypeDef *hltdc)
-{
+HAL_StatusTypeDef HAL_LTDC_DisableDither(LTDC_HandleTypeDef *hltdc) {
   /* Process locked */
   __HAL_LOCK(hltdc);
 
@@ -1104,18 +1110,19 @@ HAL_StatusTypeDef HAL_LTDC_DisableDither(LTDC_HandleTypeDef *hltdc)
 }
 
 /**
-  * @brief  Set the LTDC window size.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  XSize     LTDC Pixel per line
-  * @param  YSize     LTDC Line number
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_SetWindowSize(LTDC_HandleTypeDef *hltdc, uint32_t XSize, uint32_t YSize, uint32_t LayerIdx)
-{
+ * @brief  Set the LTDC window size.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  XSize     LTDC Pixel per line
+ * @param  YSize     LTDC Line number
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_SetWindowSize(LTDC_HandleTypeDef *hltdc,
+                                         uint32_t XSize, uint32_t YSize,
+                                         uint32_t LayerIdx) {
   LTDC_LayerCfgTypeDef *pLayerCfg;
 
   /* Check the parameters (Layers parameters)*/
@@ -1160,18 +1167,19 @@ HAL_StatusTypeDef HAL_LTDC_SetWindowSize(LTDC_HandleTypeDef *hltdc, uint32_t XSi
 }
 
 /**
-  * @brief  Set the LTDC window position.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  X0        LTDC window X offset
-  * @param  Y0        LTDC window Y offset
-  * @param  LayerIdx  LTDC Layer index.
-  *                         This parameter can be one of the following values:
-  *                         LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_SetWindowPosition(LTDC_HandleTypeDef *hltdc, uint32_t X0, uint32_t Y0, uint32_t LayerIdx)
-{
+ * @brief  Set the LTDC window position.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  X0        LTDC window X offset
+ * @param  Y0        LTDC window Y offset
+ * @param  LayerIdx  LTDC Layer index.
+ *                         This parameter can be one of the following values:
+ *                         LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_SetWindowPosition(LTDC_HandleTypeDef *hltdc,
+                                             uint32_t X0, uint32_t Y0,
+                                             uint32_t LayerIdx) {
   LTDC_LayerCfgTypeDef *pLayerCfg;
 
   /* Check the parameters */
@@ -1212,17 +1220,18 @@ HAL_StatusTypeDef HAL_LTDC_SetWindowPosition(LTDC_HandleTypeDef *hltdc, uint32_t
 }
 
 /**
-  * @brief  Reconfigure the pixel format.
-  * @param  hltdc        pointer to a LTDC_HandleTypeDef structure that contains
-  *                      the configuration information for the LTDC.
-  * @param  Pixelformat  new pixel format value.
-  * @param  LayerIdx     LTDC Layer index.
-  *                      This parameter can be one of the following values:
-  *                      LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1).
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_SetPixelFormat(LTDC_HandleTypeDef *hltdc, uint32_t Pixelformat, uint32_t LayerIdx)
-{
+ * @brief  Reconfigure the pixel format.
+ * @param  hltdc        pointer to a LTDC_HandleTypeDef structure that contains
+ *                      the configuration information for the LTDC.
+ * @param  Pixelformat  new pixel format value.
+ * @param  LayerIdx     LTDC Layer index.
+ *                      This parameter can be one of the following values:
+ *                      LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1).
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_SetPixelFormat(LTDC_HandleTypeDef *hltdc,
+                                          uint32_t Pixelformat,
+                                          uint32_t LayerIdx) {
   LTDC_LayerCfgTypeDef *pLayerCfg;
 
   /* Check the parameters */
@@ -1257,17 +1266,17 @@ HAL_StatusTypeDef HAL_LTDC_SetPixelFormat(LTDC_HandleTypeDef *hltdc, uint32_t Pi
 }
 
 /**
-  * @brief  Reconfigure the layer alpha value.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  Alpha     new alpha value.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_SetAlpha(LTDC_HandleTypeDef *hltdc, uint32_t Alpha, uint32_t LayerIdx)
-{
+ * @brief  Reconfigure the layer alpha value.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  Alpha     new alpha value.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_SetAlpha(LTDC_HandleTypeDef *hltdc, uint32_t Alpha,
+                                    uint32_t LayerIdx) {
   LTDC_LayerCfgTypeDef *pLayerCfg;
 
   /* Check the parameters */
@@ -1301,17 +1310,17 @@ HAL_StatusTypeDef HAL_LTDC_SetAlpha(LTDC_HandleTypeDef *hltdc, uint32_t Alpha, u
   return HAL_OK;
 }
 /**
-  * @brief  Reconfigure the frame buffer Address.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  Address   new address value.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1).
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_SetAddress(LTDC_HandleTypeDef *hltdc, uint32_t Address, uint32_t LayerIdx)
-{
+ * @brief  Reconfigure the frame buffer Address.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  Address   new address value.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1).
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_SetAddress(LTDC_HandleTypeDef *hltdc,
+                                      uint32_t Address, uint32_t LayerIdx) {
   LTDC_LayerCfgTypeDef *pLayerCfg;
 
   /* Check the parameters */
@@ -1345,20 +1354,27 @@ HAL_StatusTypeDef HAL_LTDC_SetAddress(LTDC_HandleTypeDef *hltdc, uint32_t Addres
 }
 
 /**
-  * @brief  Function used to reconfigure the pitch for specific cases where the attached LayerIdx buffer have a width that is
-  *         larger than the one intended to be displayed on screen. Example of a buffer 800x480 attached to layer for which we
-  *         want to read and display on screen only a portion 320x240 taken in the center of the buffer. The pitch in pixels
-  *         will be in that case 800 pixels and not 320 pixels as initially configured by previous call to HAL_LTDC_ConfigLayer().
-  * @note   This function should be called only after a previous call to HAL_LTDC_ConfigLayer() to modify the default pitch
-  *         configured by HAL_LTDC_ConfigLayer() when required (refer to example described just above).
-  * @param  hltdc              pointer to a LTDC_HandleTypeDef structure that contains
-  *                            the configuration information for the LTDC.
-  * @param  LinePitchInPixels  New line pitch in pixels to configure for LTDC layer 'LayerIdx'.
-  * @param  LayerIdx           LTDC layer index concerned by the modification of line pitch.
-  * @retval HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_SetPitch(LTDC_HandleTypeDef *hltdc, uint32_t LinePitchInPixels, uint32_t LayerIdx)
-{
+ * @brief  Function used to reconfigure the pitch for specific cases where the
+ * attached LayerIdx buffer have a width that is larger than the one intended to
+ * be displayed on screen. Example of a buffer 800x480 attached to layer for
+ * which we want to read and display on screen only a portion 320x240 taken in
+ * the center of the buffer. The pitch in pixels will be in that case 800 pixels
+ * and not 320 pixels as initially configured by previous call to
+ * HAL_LTDC_ConfigLayer().
+ * @note   This function should be called only after a previous call to
+ * HAL_LTDC_ConfigLayer() to modify the default pitch configured by
+ * HAL_LTDC_ConfigLayer() when required (refer to example described just above).
+ * @param  hltdc              pointer to a LTDC_HandleTypeDef structure that
+ * contains the configuration information for the LTDC.
+ * @param  LinePitchInPixels  New line pitch in pixels to configure for LTDC
+ * layer 'LayerIdx'.
+ * @param  LayerIdx           LTDC layer index concerned by the modification of
+ * line pitch.
+ * @retval HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_SetPitch(LTDC_HandleTypeDef *hltdc,
+                                    uint32_t LinePitchInPixels,
+                                    uint32_t LayerIdx) {
   uint32_t tmp;
   uint32_t pitchUpdate;
   uint32_t pixelFormat;
@@ -1375,23 +1391,16 @@ HAL_StatusTypeDef HAL_LTDC_SetPitch(LTDC_HandleTypeDef *hltdc, uint32_t LinePitc
   /* get LayerIdx used pixel format */
   pixelFormat = hltdc->LayerCfg[LayerIdx].PixelFormat;
 
-  if (pixelFormat == LTDC_PIXEL_FORMAT_ARGB8888)
-  {
+  if (pixelFormat == LTDC_PIXEL_FORMAT_ARGB8888) {
     tmp = 4U;
-  }
-  else if (pixelFormat == LTDC_PIXEL_FORMAT_RGB888)
-  {
+  } else if (pixelFormat == LTDC_PIXEL_FORMAT_RGB888) {
     tmp = 3U;
-  }
-  else if ((pixelFormat == LTDC_PIXEL_FORMAT_ARGB4444) || \
-           (pixelFormat == LTDC_PIXEL_FORMAT_RGB565)   || \
-           (pixelFormat == LTDC_PIXEL_FORMAT_ARGB1555) || \
-           (pixelFormat == LTDC_PIXEL_FORMAT_AL88))
-  {
+  } else if ((pixelFormat == LTDC_PIXEL_FORMAT_ARGB4444) ||
+             (pixelFormat == LTDC_PIXEL_FORMAT_RGB565) ||
+             (pixelFormat == LTDC_PIXEL_FORMAT_ARGB1555) ||
+             (pixelFormat == LTDC_PIXEL_FORMAT_AL88)) {
     tmp = 2U;
-  }
-  else
-  {
+  } else {
     tmp = 1U;
   }
 
@@ -1419,15 +1428,16 @@ HAL_StatusTypeDef HAL_LTDC_SetPitch(LTDC_HandleTypeDef *hltdc, uint32_t LinePitc
 }
 
 /**
-  * @brief  Define the position of the line interrupt.
-  * @param  hltdc   pointer to a LTDC_HandleTypeDef structure that contains
-  *                 the configuration information for the LTDC.
-  * @param  Line    Line Interrupt Position.
-  * @note   User application may resort to HAL_LTDC_LineEventCallback() at line interrupt generation.
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_ProgramLineEvent(LTDC_HandleTypeDef *hltdc, uint32_t Line)
-{
+ * @brief  Define the position of the line interrupt.
+ * @param  hltdc   pointer to a LTDC_HandleTypeDef structure that contains
+ *                 the configuration information for the LTDC.
+ * @param  Line    Line Interrupt Position.
+ * @note   User application may resort to HAL_LTDC_LineEventCallback() at line
+ * interrupt generation.
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_ProgramLineEvent(LTDC_HandleTypeDef *hltdc,
+                                            uint32_t Line) {
   /* Check the parameters */
   assert_param(IS_LTDC_LIPOS(Line));
 
@@ -1456,17 +1466,19 @@ HAL_StatusTypeDef HAL_LTDC_ProgramLineEvent(LTDC_HandleTypeDef *hltdc, uint32_t 
 }
 
 /**
-  * @brief  Reload LTDC Layers configuration.
-  * @param  hltdc      pointer to a LTDC_HandleTypeDef structure that contains
-  *                    the configuration information for the LTDC.
-  * @param  ReloadType This parameter can be one of the following values :
-  *                      LTDC_RELOAD_IMMEDIATE : Immediate Reload
-  *                      LTDC_RELOAD_VERTICAL_BLANKING  : Reload in the next Vertical Blanking
-  * @note   User application may resort to HAL_LTDC_ReloadEventCallback() at reload interrupt generation.
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef  HAL_LTDC_Reload(LTDC_HandleTypeDef *hltdc, uint32_t ReloadType)
-{
+ * @brief  Reload LTDC Layers configuration.
+ * @param  hltdc      pointer to a LTDC_HandleTypeDef structure that contains
+ *                    the configuration information for the LTDC.
+ * @param  ReloadType This parameter can be one of the following values :
+ *                      LTDC_RELOAD_IMMEDIATE : Immediate Reload
+ *                      LTDC_RELOAD_VERTICAL_BLANKING  : Reload in the next
+ * Vertical Blanking
+ * @note   User application may resort to HAL_LTDC_ReloadEventCallback() at
+ * reload interrupt generation.
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_Reload(LTDC_HandleTypeDef *hltdc,
+                                  uint32_t ReloadType) {
   /* Check the parameters */
   assert_param(IS_LTDC_RELOAD(ReloadType));
 
@@ -1492,20 +1504,22 @@ HAL_StatusTypeDef  HAL_LTDC_Reload(LTDC_HandleTypeDef *hltdc, uint32_t ReloadTyp
 }
 
 /**
-  * @brief  Configure the LTDC Layer according to the specified without reloading
-  *         parameters in the LTDC_InitTypeDef and create the associated handle.
-  *         Variant of the function HAL_LTDC_ConfigLayer without immediate reload.
-  * @param  hltdc      pointer to a LTDC_HandleTypeDef structure that contains
-  *                    the configuration information for the LTDC.
-  * @param  pLayerCfg  pointer to a LTDC_LayerCfgTypeDef structure that contains
-  *                    the configuration information for the Layer.
-  * @param  LayerIdx   LTDC Layer index.
-  *                    This parameter can be one of the following values:
-  *                    LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_ConfigLayer_NoReload(LTDC_HandleTypeDef *hltdc, LTDC_LayerCfgTypeDef *pLayerCfg, uint32_t LayerIdx)
-{
+ * @brief  Configure the LTDC Layer according to the specified without reloading
+ *         parameters in the LTDC_InitTypeDef and create the associated handle.
+ *         Variant of the function HAL_LTDC_ConfigLayer without immediate
+ * reload.
+ * @param  hltdc      pointer to a LTDC_HandleTypeDef structure that contains
+ *                    the configuration information for the LTDC.
+ * @param  pLayerCfg  pointer to a LTDC_LayerCfgTypeDef structure that contains
+ *                    the configuration information for the Layer.
+ * @param  LayerIdx   LTDC Layer index.
+ *                    This parameter can be one of the following values:
+ *                    LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_ConfigLayer_NoReload(LTDC_HandleTypeDef *hltdc,
+                                                LTDC_LayerCfgTypeDef *pLayerCfg,
+                                                uint32_t LayerIdx) {
   /* Check the parameters */
   assert_param(IS_LTDC_LAYER(LayerIdx));
   assert_param(IS_LTDC_HCONFIGST(pLayerCfg->WindowX0));
@@ -1533,7 +1547,7 @@ HAL_StatusTypeDef HAL_LTDC_ConfigLayer_NoReload(LTDC_HandleTypeDef *hltdc, LTDC_
   LTDC_SetConfig(hltdc, pLayerCfg, LayerIdx);
 
   /* Initialize the LTDC state*/
-  hltdc->State  = HAL_LTDC_STATE_READY;
+  hltdc->State = HAL_LTDC_STATE_READY;
 
   /* Process unlocked */
   __HAL_UNLOCK(hltdc);
@@ -1542,19 +1556,22 @@ HAL_StatusTypeDef HAL_LTDC_ConfigLayer_NoReload(LTDC_HandleTypeDef *hltdc, LTDC_
 }
 
 /**
-  * @brief  Set the LTDC window size without reloading.
-  *         Variant of the function HAL_LTDC_SetWindowSize without immediate reload.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  XSize     LTDC Pixel per line
-  * @param  YSize     LTDC Line number
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_SetWindowSize_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t XSize, uint32_t YSize, uint32_t LayerIdx)
-{
+ * @brief  Set the LTDC window size without reloading.
+ *         Variant of the function HAL_LTDC_SetWindowSize without immediate
+ * reload.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  XSize     LTDC Pixel per line
+ * @param  YSize     LTDC Line number
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_SetWindowSize_NoReload(LTDC_HandleTypeDef *hltdc,
+                                                  uint32_t XSize,
+                                                  uint32_t YSize,
+                                                  uint32_t LayerIdx) {
   LTDC_LayerCfgTypeDef *pLayerCfg;
 
   /* Check the parameters (Layers parameters)*/
@@ -1596,19 +1613,21 @@ HAL_StatusTypeDef HAL_LTDC_SetWindowSize_NoReload(LTDC_HandleTypeDef *hltdc, uin
 }
 
 /**
-  * @brief  Set the LTDC window position without reloading.
-  *         Variant of the function HAL_LTDC_SetWindowPosition without immediate reload.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  X0        LTDC window X offset
-  * @param  Y0        LTDC window Y offset
-  * @param  LayerIdx  LTDC Layer index.
-  *                         This parameter can be one of the following values:
-  *                         LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_SetWindowPosition_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t X0, uint32_t Y0, uint32_t LayerIdx)
-{
+ * @brief  Set the LTDC window position without reloading.
+ *         Variant of the function HAL_LTDC_SetWindowPosition without immediate
+ * reload.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  X0        LTDC window X offset
+ * @param  Y0        LTDC window Y offset
+ * @param  LayerIdx  LTDC Layer index.
+ *                         This parameter can be one of the following values:
+ *                         LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_SetWindowPosition_NoReload(LTDC_HandleTypeDef *hltdc,
+                                                      uint32_t X0, uint32_t Y0,
+                                                      uint32_t LayerIdx) {
   LTDC_LayerCfgTypeDef *pLayerCfg;
 
   /* Check the parameters */
@@ -1646,18 +1665,20 @@ HAL_StatusTypeDef HAL_LTDC_SetWindowPosition_NoReload(LTDC_HandleTypeDef *hltdc,
 }
 
 /**
-  * @brief  Reconfigure the pixel format without reloading.
-  *         Variant of the function HAL_LTDC_SetPixelFormat without immediate reload.
-  * @param  hltdc        pointer to a LTDC_HandleTypeDfef structure that contains
-  *                      the configuration information for the LTDC.
-  * @param  Pixelformat  new pixel format value.
-  * @param  LayerIdx     LTDC Layer index.
-  *                      This parameter can be one of the following values:
-  *                      LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1).
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_SetPixelFormat_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t Pixelformat, uint32_t LayerIdx)
-{
+ * @brief  Reconfigure the pixel format without reloading.
+ *         Variant of the function HAL_LTDC_SetPixelFormat without immediate
+ * reload.
+ * @param  hltdc        pointer to a LTDC_HandleTypeDfef structure that contains
+ *                      the configuration information for the LTDC.
+ * @param  Pixelformat  new pixel format value.
+ * @param  LayerIdx     LTDC Layer index.
+ *                      This parameter can be one of the following values:
+ *                      LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1).
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_SetPixelFormat_NoReload(LTDC_HandleTypeDef *hltdc,
+                                                   uint32_t Pixelformat,
+                                                   uint32_t LayerIdx) {
   LTDC_LayerCfgTypeDef *pLayerCfg;
 
   /* Check the parameters */
@@ -1689,18 +1710,19 @@ HAL_StatusTypeDef HAL_LTDC_SetPixelFormat_NoReload(LTDC_HandleTypeDef *hltdc, ui
 }
 
 /**
-  * @brief  Reconfigure the layer alpha value without reloading.
-  *         Variant of the function HAL_LTDC_SetAlpha without immediate reload.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  Alpha     new alpha value.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_SetAlpha_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t Alpha, uint32_t LayerIdx)
-{
+ * @brief  Reconfigure the layer alpha value without reloading.
+ *         Variant of the function HAL_LTDC_SetAlpha without immediate reload.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  Alpha     new alpha value.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_SetAlpha_NoReload(LTDC_HandleTypeDef *hltdc,
+                                             uint32_t Alpha,
+                                             uint32_t LayerIdx) {
   LTDC_LayerCfgTypeDef *pLayerCfg;
 
   /* Check the parameters */
@@ -1732,18 +1754,19 @@ HAL_StatusTypeDef HAL_LTDC_SetAlpha_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t
 }
 
 /**
-  * @brief  Reconfigure the frame buffer Address without reloading.
-  *         Variant of the function HAL_LTDC_SetAddress without immediate reload.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  Address   new address value.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1).
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_SetAddress_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t Address, uint32_t LayerIdx)
-{
+ * @brief  Reconfigure the frame buffer Address without reloading.
+ *         Variant of the function HAL_LTDC_SetAddress without immediate reload.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  Address   new address value.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1).
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_SetAddress_NoReload(LTDC_HandleTypeDef *hltdc,
+                                               uint32_t Address,
+                                               uint32_t LayerIdx) {
   LTDC_LayerCfgTypeDef *pLayerCfg;
 
   /* Check the parameters */
@@ -1774,21 +1797,28 @@ HAL_StatusTypeDef HAL_LTDC_SetAddress_NoReload(LTDC_HandleTypeDef *hltdc, uint32
 }
 
 /**
-  * @brief  Function used to reconfigure the pitch for specific cases where the attached LayerIdx buffer have a width that is
-  *         larger than the one intended to be displayed on screen. Example of a buffer 800x480 attached to layer for which we
-  *         want to read and display on screen only a portion 320x240 taken in the center of the buffer. The pitch in pixels
-  *         will be in that case 800 pixels and not 320 pixels as initially configured by previous call to HAL_LTDC_ConfigLayer().
-  * @note   This function should be called only after a previous call to HAL_LTDC_ConfigLayer() to modify the default pitch
-  *         configured by HAL_LTDC_ConfigLayer() when required (refer to example described just above).
-  *         Variant of the function HAL_LTDC_SetPitch without immediate reload.
-  * @param  hltdc              pointer to a LTDC_HandleTypeDef structure that contains
-  *                            the configuration information for the LTDC.
-  * @param  LinePitchInPixels  New line pitch in pixels to configure for LTDC layer 'LayerIdx'.
-  * @param  LayerIdx           LTDC layer index concerned by the modification of line pitch.
-  * @retval HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_SetPitch_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t LinePitchInPixels, uint32_t LayerIdx)
-{
+ * @brief  Function used to reconfigure the pitch for specific cases where the
+ * attached LayerIdx buffer have a width that is larger than the one intended to
+ * be displayed on screen. Example of a buffer 800x480 attached to layer for
+ * which we want to read and display on screen only a portion 320x240 taken in
+ * the center of the buffer. The pitch in pixels will be in that case 800 pixels
+ * and not 320 pixels as initially configured by previous call to
+ * HAL_LTDC_ConfigLayer().
+ * @note   This function should be called only after a previous call to
+ * HAL_LTDC_ConfigLayer() to modify the default pitch configured by
+ * HAL_LTDC_ConfigLayer() when required (refer to example described just above).
+ *         Variant of the function HAL_LTDC_SetPitch without immediate reload.
+ * @param  hltdc              pointer to a LTDC_HandleTypeDef structure that
+ * contains the configuration information for the LTDC.
+ * @param  LinePitchInPixels  New line pitch in pixels to configure for LTDC
+ * layer 'LayerIdx'.
+ * @param  LayerIdx           LTDC layer index concerned by the modification of
+ * line pitch.
+ * @retval HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_SetPitch_NoReload(LTDC_HandleTypeDef *hltdc,
+                                             uint32_t LinePitchInPixels,
+                                             uint32_t LayerIdx) {
   uint32_t tmp;
   uint32_t pitchUpdate;
   uint32_t pixelFormat;
@@ -1805,23 +1835,16 @@ HAL_StatusTypeDef HAL_LTDC_SetPitch_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t
   /* get LayerIdx used pixel format */
   pixelFormat = hltdc->LayerCfg[LayerIdx].PixelFormat;
 
-  if (pixelFormat == LTDC_PIXEL_FORMAT_ARGB8888)
-  {
+  if (pixelFormat == LTDC_PIXEL_FORMAT_ARGB8888) {
     tmp = 4U;
-  }
-  else if (pixelFormat == LTDC_PIXEL_FORMAT_RGB888)
-  {
+  } else if (pixelFormat == LTDC_PIXEL_FORMAT_RGB888) {
     tmp = 3U;
-  }
-  else if ((pixelFormat == LTDC_PIXEL_FORMAT_ARGB4444) || \
-           (pixelFormat == LTDC_PIXEL_FORMAT_RGB565)   || \
-           (pixelFormat == LTDC_PIXEL_FORMAT_ARGB1555) || \
-           (pixelFormat == LTDC_PIXEL_FORMAT_AL88))
-  {
+  } else if ((pixelFormat == LTDC_PIXEL_FORMAT_ARGB4444) ||
+             (pixelFormat == LTDC_PIXEL_FORMAT_RGB565) ||
+             (pixelFormat == LTDC_PIXEL_FORMAT_ARGB1555) ||
+             (pixelFormat == LTDC_PIXEL_FORMAT_AL88)) {
     tmp = 2U;
-  }
-  else
-  {
+  } else {
     tmp = 1U;
   }
 
@@ -1842,20 +1865,21 @@ HAL_StatusTypeDef HAL_LTDC_SetPitch_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t
   return HAL_OK;
 }
 
-
 /**
-  * @brief  Configure the color keying without reloading.
-  *         Variant of the function HAL_LTDC_ConfigColorKeying without immediate reload.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  RGBValue the color key value
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_ConfigColorKeying_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t RGBValue, uint32_t LayerIdx)
-{
+ * @brief  Configure the color keying without reloading.
+ *         Variant of the function HAL_LTDC_ConfigColorKeying without immediate
+ * reload.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  RGBValue the color key value
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_ConfigColorKeying_NoReload(LTDC_HandleTypeDef *hltdc,
+                                                      uint32_t RGBValue,
+                                                      uint32_t LayerIdx) {
   /* Check the parameters */
   assert_param(IS_LTDC_LAYER(LayerIdx));
 
@@ -1866,8 +1890,9 @@ HAL_StatusTypeDef HAL_LTDC_ConfigColorKeying_NoReload(LTDC_HandleTypeDef *hltdc,
   hltdc->State = HAL_LTDC_STATE_BUSY;
 
   /* Configure the default color values */
-  LTDC_LAYER(hltdc, LayerIdx)->CKCR &=  ~(LTDC_LxCKCR_CKBLUE | LTDC_LxCKCR_CKGREEN | LTDC_LxCKCR_CKRED);
-  LTDC_LAYER(hltdc, LayerIdx)->CKCR  = RGBValue;
+  LTDC_LAYER(hltdc, LayerIdx)->CKCR &=
+      ~(LTDC_LxCKCR_CKBLUE | LTDC_LxCKCR_CKGREEN | LTDC_LxCKCR_CKRED);
+  LTDC_LAYER(hltdc, LayerIdx)->CKCR = RGBValue;
 
   /* Change the LTDC state*/
   hltdc->State = HAL_LTDC_STATE_READY;
@@ -1879,17 +1904,18 @@ HAL_StatusTypeDef HAL_LTDC_ConfigColorKeying_NoReload(LTDC_HandleTypeDef *hltdc,
 }
 
 /**
-  * @brief  Enable the color keying without reloading.
-  *         Variant of the function HAL_LTDC_EnableColorKeying without immediate reload.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_EnableColorKeying_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t LayerIdx)
-{
+ * @brief  Enable the color keying without reloading.
+ *         Variant of the function HAL_LTDC_EnableColorKeying without immediate
+ * reload.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_EnableColorKeying_NoReload(LTDC_HandleTypeDef *hltdc,
+                                                      uint32_t LayerIdx) {
   /* Check the parameters */
   assert_param(IS_LTDC_LAYER(LayerIdx));
 
@@ -1912,17 +1938,19 @@ HAL_StatusTypeDef HAL_LTDC_EnableColorKeying_NoReload(LTDC_HandleTypeDef *hltdc,
 }
 
 /**
-  * @brief  Disable the color keying without reloading.
-  *         Variant of the function HAL_LTDC_DisableColorKeying without immediate reload.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_DisableColorKeying_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t LayerIdx)
-{
+ * @brief  Disable the color keying without reloading.
+ *         Variant of the function HAL_LTDC_DisableColorKeying without immediate
+ * reload.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef
+HAL_LTDC_DisableColorKeying_NoReload(LTDC_HandleTypeDef *hltdc,
+                                     uint32_t LayerIdx) {
   /* Check the parameters */
   assert_param(IS_LTDC_LAYER(LayerIdx));
 
@@ -1945,17 +1973,17 @@ HAL_StatusTypeDef HAL_LTDC_DisableColorKeying_NoReload(LTDC_HandleTypeDef *hltdc
 }
 
 /**
-  * @brief  Enable the color lookup table without reloading.
-  *         Variant of the function HAL_LTDC_EnableCLUT without immediate reload.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_EnableCLUT_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t LayerIdx)
-{
+ * @brief  Enable the color lookup table without reloading.
+ *         Variant of the function HAL_LTDC_EnableCLUT without immediate reload.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_EnableCLUT_NoReload(LTDC_HandleTypeDef *hltdc,
+                                               uint32_t LayerIdx) {
   /* Check the parameters */
   assert_param(IS_LTDC_LAYER(LayerIdx));
 
@@ -1978,17 +2006,18 @@ HAL_StatusTypeDef HAL_LTDC_EnableCLUT_NoReload(LTDC_HandleTypeDef *hltdc, uint32
 }
 
 /**
-  * @brief  Disable the color lookup table without reloading.
-  *         Variant of the function HAL_LTDC_DisableCLUT without immediate reload.
-  * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values:
-  *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval  HAL status
-  */
-HAL_StatusTypeDef HAL_LTDC_DisableCLUT_NoReload(LTDC_HandleTypeDef *hltdc, uint32_t LayerIdx)
-{
+ * @brief  Disable the color lookup table without reloading.
+ *         Variant of the function HAL_LTDC_DisableCLUT without immediate
+ * reload.
+ * @param  hltdc     pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ *                   LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval  HAL status
+ */
+HAL_StatusTypeDef HAL_LTDC_DisableCLUT_NoReload(LTDC_HandleTypeDef *hltdc,
+                                                uint32_t LayerIdx) {
   /* Check the parameters */
   assert_param(IS_LTDC_LAYER(LayerIdx));
 
@@ -2011,10 +2040,11 @@ HAL_StatusTypeDef HAL_LTDC_DisableCLUT_NoReload(LTDC_HandleTypeDef *hltdc, uint3
 }
 
 /**
-  * @}
-  */
+ * @}
+ */
 
-/** @defgroup LTDC_Exported_Functions_Group4 Peripheral State and Errors functions
+/** @defgroup LTDC_Exported_Functions_Group4 Peripheral State and Errors
+functions
   *  @brief    Peripheral State and Errors functions
   *
 @verbatim
@@ -2031,63 +2061,72 @@ HAL_StatusTypeDef HAL_LTDC_DisableCLUT_NoReload(LTDC_HandleTypeDef *hltdc, uint3
   */
 
 /**
-  * @brief  Return the LTDC handle state.
-  * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
-  *                the configuration information for the LTDC.
-  * @retval HAL state
-  */
-HAL_LTDC_StateTypeDef HAL_LTDC_GetState(LTDC_HandleTypeDef *hltdc)
-{
+ * @brief  Return the LTDC handle state.
+ * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
+ *                the configuration information for the LTDC.
+ * @retval HAL state
+ */
+HAL_LTDC_StateTypeDef HAL_LTDC_GetState(LTDC_HandleTypeDef *hltdc) {
   return hltdc->State;
 }
 
 /**
-  * @brief  Return the LTDC handle error code.
-  * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
-  *               the configuration information for the LTDC.
-  * @retval LTDC Error Code
-  */
-uint32_t HAL_LTDC_GetError(LTDC_HandleTypeDef *hltdc)
-{
+ * @brief  Return the LTDC handle error code.
+ * @param  hltdc  pointer to a LTDC_HandleTypeDef structure that contains
+ *               the configuration information for the LTDC.
+ * @retval LTDC Error Code
+ */
+uint32_t HAL_LTDC_GetError(LTDC_HandleTypeDef *hltdc) {
   return hltdc->ErrorCode;
 }
 
 /**
-  * @}
-  */
+ * @}
+ */
 
 /**
-  * @}
-  */
+ * @}
+ */
 
 /** @defgroup LTDC_Private_Functions LTDC Private Functions
-  * @{
-  */
+ * @{
+ */
 
 /**
-  * @brief  Configure the LTDC peripheral
-  * @param  hltdc     Pointer to a LTDC_HandleTypeDef structure that contains
-  *                   the configuration information for the LTDC.
-  * @param  pLayerCfg Pointer LTDC Layer Configuration structure
-  * @param  LayerIdx  LTDC Layer index.
-  *                   This parameter can be one of the following values: LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
-  * @retval None
-  */
-static void LTDC_SetConfig(LTDC_HandleTypeDef *hltdc, LTDC_LayerCfgTypeDef *pLayerCfg, uint32_t LayerIdx)
-{
+ * @brief  Configure the LTDC peripheral
+ * @param  hltdc     Pointer to a LTDC_HandleTypeDef structure that contains
+ *                   the configuration information for the LTDC.
+ * @param  pLayerCfg Pointer LTDC Layer Configuration structure
+ * @param  LayerIdx  LTDC Layer index.
+ *                   This parameter can be one of the following values:
+ * LTDC_LAYER_1 (0) or LTDC_LAYER_2 (1)
+ * @retval None
+ */
+static void LTDC_SetConfig(LTDC_HandleTypeDef *hltdc,
+                           LTDC_LayerCfgTypeDef *pLayerCfg, uint32_t LayerIdx) {
   uint32_t tmp;
   uint32_t tmp1;
   uint32_t tmp2;
 
   /* Configure the horizontal start and stop position */
-  tmp = ((pLayerCfg->WindowX1 + ((hltdc->Instance->BPCR & LTDC_BPCR_AHBP) >> 16U)) << 16U);
-  LTDC_LAYER(hltdc, LayerIdx)->WHPCR &= ~(LTDC_LxWHPCR_WHSTPOS | LTDC_LxWHPCR_WHSPPOS);
-  LTDC_LAYER(hltdc, LayerIdx)->WHPCR = ((pLayerCfg->WindowX0 + ((hltdc->Instance->BPCR & LTDC_BPCR_AHBP) >> 16U) + 1U) | tmp);
+  tmp =
+      ((pLayerCfg->WindowX1 + ((hltdc->Instance->BPCR & LTDC_BPCR_AHBP) >> 16U))
+       << 16U);
+  LTDC_LAYER(hltdc, LayerIdx)->WHPCR &=
+      ~(LTDC_LxWHPCR_WHSTPOS | LTDC_LxWHPCR_WHSPPOS);
+  LTDC_LAYER(hltdc, LayerIdx)->WHPCR =
+      ((pLayerCfg->WindowX0 +
+        ((hltdc->Instance->BPCR & LTDC_BPCR_AHBP) >> 16U) + 1U) |
+       tmp);
 
   /* Configure the vertical start and stop position */
-  tmp = ((pLayerCfg->WindowY1 + (hltdc->Instance->BPCR & LTDC_BPCR_AVBP)) << 16U);
-  LTDC_LAYER(hltdc, LayerIdx)->WVPCR &= ~(LTDC_LxWVPCR_WVSTPOS | LTDC_LxWVPCR_WVSPPOS);
-  LTDC_LAYER(hltdc, LayerIdx)->WVPCR  = ((pLayerCfg->WindowY0 + (hltdc->Instance->BPCR & LTDC_BPCR_AVBP) + 1U) | tmp);
+  tmp =
+      ((pLayerCfg->WindowY1 + (hltdc->Instance->BPCR & LTDC_BPCR_AVBP)) << 16U);
+  LTDC_LAYER(hltdc, LayerIdx)->WVPCR &=
+      ~(LTDC_LxWVPCR_WVSTPOS | LTDC_LxWVPCR_WVSPPOS);
+  LTDC_LAYER(hltdc, LayerIdx)->WVPCR =
+      ((pLayerCfg->WindowY0 + (hltdc->Instance->BPCR & LTDC_BPCR_AVBP) + 1U) |
+       tmp);
 
   /* Specifies the pixel format */
   LTDC_LAYER(hltdc, LayerIdx)->PFCR &= ~(LTDC_LxPFCR_PF);
@@ -2097,8 +2136,11 @@ static void LTDC_SetConfig(LTDC_HandleTypeDef *hltdc, LTDC_LayerCfgTypeDef *pLay
   tmp = ((uint32_t)(pLayerCfg->Backcolor.Green) << 8U);
   tmp1 = ((uint32_t)(pLayerCfg->Backcolor.Red) << 16U);
   tmp2 = (pLayerCfg->Alpha0 << 24U);
-  LTDC_LAYER(hltdc, LayerIdx)->DCCR &= ~(LTDC_LxDCCR_DCBLUE | LTDC_LxDCCR_DCGREEN | LTDC_LxDCCR_DCRED | LTDC_LxDCCR_DCALPHA);
-  LTDC_LAYER(hltdc, LayerIdx)->DCCR = (pLayerCfg->Backcolor.Blue | tmp | tmp1 | tmp2);
+  LTDC_LAYER(hltdc, LayerIdx)->DCCR &=
+      ~(LTDC_LxDCCR_DCBLUE | LTDC_LxDCCR_DCGREEN | LTDC_LxDCCR_DCRED |
+        LTDC_LxDCCR_DCALPHA);
+  LTDC_LAYER(hltdc, LayerIdx)->DCCR =
+      (pLayerCfg->Backcolor.Blue | tmp | tmp1 | tmp2);
 
   /* Specifies the constant alpha value */
   LTDC_LAYER(hltdc, LayerIdx)->CACR &= ~(LTDC_LxCACR_CONSTA);
@@ -2106,58 +2148,54 @@ static void LTDC_SetConfig(LTDC_HandleTypeDef *hltdc, LTDC_LayerCfgTypeDef *pLay
 
   /* Specifies the blending factors */
   LTDC_LAYER(hltdc, LayerIdx)->BFCR &= ~(LTDC_LxBFCR_BF2 | LTDC_LxBFCR_BF1);
-  LTDC_LAYER(hltdc, LayerIdx)->BFCR = (pLayerCfg->BlendingFactor1 | pLayerCfg->BlendingFactor2);
+  LTDC_LAYER(hltdc, LayerIdx)->BFCR =
+      (pLayerCfg->BlendingFactor1 | pLayerCfg->BlendingFactor2);
 
   /* Configure the color frame buffer start address */
   LTDC_LAYER(hltdc, LayerIdx)->CFBAR &= ~(LTDC_LxCFBAR_CFBADD);
   LTDC_LAYER(hltdc, LayerIdx)->CFBAR = (pLayerCfg->FBStartAdress);
 
-  if (pLayerCfg->PixelFormat == LTDC_PIXEL_FORMAT_ARGB8888)
-  {
+  if (pLayerCfg->PixelFormat == LTDC_PIXEL_FORMAT_ARGB8888) {
     tmp = 4U;
-  }
-  else if (pLayerCfg->PixelFormat == LTDC_PIXEL_FORMAT_RGB888)
-  {
+  } else if (pLayerCfg->PixelFormat == LTDC_PIXEL_FORMAT_RGB888) {
     tmp = 3U;
-  }
-  else if ((pLayerCfg->PixelFormat == LTDC_PIXEL_FORMAT_ARGB4444) || \
-           (pLayerCfg->PixelFormat == LTDC_PIXEL_FORMAT_RGB565)   || \
-           (pLayerCfg->PixelFormat == LTDC_PIXEL_FORMAT_ARGB1555) || \
-           (pLayerCfg->PixelFormat == LTDC_PIXEL_FORMAT_AL88))
-  {
+  } else if ((pLayerCfg->PixelFormat == LTDC_PIXEL_FORMAT_ARGB4444) ||
+             (pLayerCfg->PixelFormat == LTDC_PIXEL_FORMAT_RGB565) ||
+             (pLayerCfg->PixelFormat == LTDC_PIXEL_FORMAT_ARGB1555) ||
+             (pLayerCfg->PixelFormat == LTDC_PIXEL_FORMAT_AL88)) {
     tmp = 2U;
-  }
-  else
-  {
+  } else {
     tmp = 1U;
   }
 
   /* Configure the color frame buffer pitch in byte */
-  LTDC_LAYER(hltdc, LayerIdx)->CFBLR  &= ~(LTDC_LxCFBLR_CFBLL | LTDC_LxCFBLR_CFBP);
-  LTDC_LAYER(hltdc, LayerIdx)->CFBLR  = (((pLayerCfg->ImageWidth * tmp) << 16U) | (((pLayerCfg->WindowX1 - pLayerCfg->WindowX0) * tmp)  + 3U));
+  LTDC_LAYER(hltdc, LayerIdx)->CFBLR &=
+      ~(LTDC_LxCFBLR_CFBLL | LTDC_LxCFBLR_CFBP);
+  LTDC_LAYER(hltdc, LayerIdx)->CFBLR =
+      (((pLayerCfg->ImageWidth * tmp) << 16U) |
+       (((pLayerCfg->WindowX1 - pLayerCfg->WindowX0) * tmp) + 3U));
   /* Configure the frame buffer line number */
-  LTDC_LAYER(hltdc, LayerIdx)->CFBLNR  &= ~(LTDC_LxCFBLNR_CFBLNBR);
-  LTDC_LAYER(hltdc, LayerIdx)->CFBLNR  = (pLayerCfg->ImageHeight);
+  LTDC_LAYER(hltdc, LayerIdx)->CFBLNR &= ~(LTDC_LxCFBLNR_CFBLNBR);
+  LTDC_LAYER(hltdc, LayerIdx)->CFBLNR = (pLayerCfg->ImageHeight);
 
   /* Enable LTDC_Layer by setting LEN bit */
   LTDC_LAYER(hltdc, LayerIdx)->CR |= (uint32_t)LTDC_LxCR_LEN;
 }
 
 /**
-  * @}
-  */
-
+ * @}
+ */
 
 /**
-  * @}
-  */
+ * @}
+ */
 
 #endif /* LTDC */
 
 #endif /* HAL_LTDC_MODULE_ENABLED */
 
 /**
-  * @}
-  */
+ * @}
+ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
