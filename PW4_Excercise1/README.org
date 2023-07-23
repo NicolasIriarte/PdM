@@ -1,53 +1,38 @@
 * English
-** Point 1
-Implement the helper functions needed to use non-blocking delays in a =main.c= source file with its corresponding =main.h= header file.
+** Point 1:
+Create a new project as a copy of the project developed for practice 3.
 
-The prototypes of the following functions should be located in =main.h=
-and the statements
+Implement a non-blocking Finite State Machine (FSM) for debounce that allows reading the state of the push-button on the =NUCLEO-F429ZI= board and generate actions or events on a falling or rising edge, according to the following diagram:
 
-#+name: Necessary code
-#+header: :main no
-#+header: :cmdline
-#+begin_src C :noweb strip-export
-  // What library must be included for this to compile?
-  typedef uint32_t tick_t;
+[[file:assets/FSM.png]]
 
-  // What library must be included for this to compile?
-  typedef bool bool_t;
-  typedef struct {
-    tick_t startTime;
-    tick_t duration;
-    bool_t running;
-  } delay_t;
 
-  void delayInit(delay_t *delay, tick_t duration);
-  bool_t delayRead(delay_t *delay);
-  void delayWrite(delay_t *delay, tick_t duration);
+The initial state of the FSM should be BUTTON_UP.
+
+Implement the following functions within main.c:
+
+#+begin_src C
+void debounceFSM_init();      // This function should load the initial state
+void debounceFSM_update();    // This function should read the inputs, resolve the state transition logic, and update the outputs
+
+void buttonPressed();         // This function should toggle the state of LED1
+void buttonReleased();        // This function should toggle the state of LED3
 #+end_src
 
-In =main.c= you must place the implementation of all the functions:
-Implementation considerations:
 
-1. =delayInit= should load the value of the delay duration into the structure, in the corresponding field. It should not start the delay count. You must initialize the running flag to =false=.
+The debounce time should be *40 ms* with a non-blocking delay, similar to the ones implemented in practice 3.
 
-2. =delayRead= should check the status of the running flag.
-   - =false=, take timestamp and change running to =true=
-   - =true=, do the calculation to know if the delay time has expired or not:
+The function =debounceFSM_update()= should be called periodically.
 
-   =current timestamp - start timestamp is greater than or equal to delay duration=?
+#+begin_src C
+  typedef enum {
+    BUTTON_UP,
+    BUTTON_FALLING,
+    BUTTON_DOWN,
+    BUTTON_RAISING,
+  } debounceState_t;
+#+end_src
 
-   and return a boolean value that indicates if the time is up or not.
-   - When the time is up, the running flag must be changed to =false=.
-
-3. =delayWrite= should allow changing the length of an existing delay.
-
-
-** Point 2
-Implement a program that uses non-blocking delays and makes the three leds of the NUCLEO-F429ZI board blink periodically and independently as follows:
-
-- LED1: 100ms.
-- LED2: 500ms.
-- LED3: 1000ms.
 
 * Español
 ** Punto 1:
