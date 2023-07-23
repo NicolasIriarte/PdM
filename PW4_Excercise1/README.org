@@ -51,52 +51,39 @@ Implement a program that uses non-blocking delays and makes the three leds of th
 
 * Español
 ** Punto 1:
-Implementar las funciones auxiliares necesarias para usar retardos no bloqueantes en un archivo fuente =main.c= con su correspondiente archivo de cabecera =main.h=.
+Crear un nuevo proyecto como copia del proyecto realizado para la práctica 3.
 
-En =main.h= se deben ubicar los prototipos de las siguientes funciones y las declaraciones
+Implementar una =MEF= anti-rebote que permita leer el estado del pulsador de la
+placa =NUCLEO-F429ZI= y generar acciones o eventos ante un flanco descendente o
+ascendente, de acuerdo al siguiente diagrama:
 
-#+name: Codigo necesario
-#+header: :main no
-#+header: :cmdline
-#+begin_src C :noweb strip-export
-  // Qué biblioteca se debe incluir para que esto compile?
-  typedef uint32_t tick_t;
+[[file:assets/FSM.png][Maquina de estados finitos propuesta.]]
 
-  // Qué biblioteca se debe incluir para que esto compile?
-  typedef bool bool_t;
+El estado inicial de la MEF debe ser BUTTON_UP.
 
-  typedef struct {
-    tick_t startTime;
-    tick_t duration;
-    bool_t running;
-  } delay_t;
+Implementar dentro de main.c, las funciones:
 
-  void delayInit(delay_t *delay, tick_t duration);
-  bool_t delayRead(delay_t *delay);
-  void delayWrite(delay_t *delay, tick_t duration);
+#+name:
+#+begin_src C
+  void debounceFSM_init();		// debe cargar el estado inicial
+  void debounceFSM_update();	// debe leer las entradas, resolver la lógica de
+                              // transición de estados y actualizar las salidas
+
+  void buttonPressed();			// debe invertir el estado del LED1
+  void buttonReleased();		// debe invertir el estado del LED3
+
 #+end_src
 
-En =main.c= se deben ubicar la implementación de todas las funciones:
-Consideraciones para la implementación:
+El tiempo de anti-rebote debe ser de *40 ms* con un retardo *no* bloqueante como los implementados en la práctica 3.
 
-1. =delayInit= debe cargar el valor de duración del retardo en la estructura, en el campo correspondiente. No debe iniciar el conteo del retardo. Debe inicializar el flag running en =false=.
+La función =debounceFSM_update()= debe llamarse periódicamente.
 
-2. =delayRead= debe verificar el estado del flag running.
-   - =false=, tomar marca de tiempo y cambiar running a =true=
-   - =true=, hacer la cuenta para saber si el tiempo del retardo se cumplió o no:
+#+begin_src C
+  typedef enum {
+    BUTTON_UP,
+    BUTTON_FALLING,
+    BUTTON_DOWN,
+    BUTTON_RAISING,
+  } debounceState_t;
+#+end_src
 
-   =marca de tiempo actual - marca de tiempo inicial es mayor o igual a duración del retardo=?
-
-   y devolver un valor booleano que indique si el tiempo se cumplió o no.
-   - Cuando el tiempo se cumple se debe cambiar el flag running a =false=.
-
-3. =delayWrite= debe permitir cambiar el tiempo de duración de un delay existente
-
-
-
-** Punto 2
-Implementar un programa que utilice retardos no bloqueantes y  haga titilar en forma periódica e independiente los tres leds de la placa NUCLEO-F429ZI de la siguiente manera:
-
-- LED1: 100 ms.
-- LED2: 500 ms.
-- LED3: 1000 ms.
