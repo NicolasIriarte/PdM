@@ -57,7 +57,7 @@ Implementar una =MEF= anti-rebote que permita leer el estado del pulsador de la
 placa =NUCLEO-F429ZI= y generar acciones o eventos ante un flanco descendente o
 ascendente, de acuerdo al siguiente diagrama:
 
-[[file:assets/FSM.png][Maquina de estados finitos propuesta.]]
+[[file:assets/FSM.png]]
 
 El estado inicial de la MEF debe ser BUTTON_UP.
 
