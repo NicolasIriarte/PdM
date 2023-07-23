@@ -1,0 +1,74 @@
+* English
+** Point 1:
+Create a new project as a copy of the project developed for practice 3.
+
+Implement a non-blocking Finite State Machine (FSM) for debounce that allows reading the state of the push-button on the =NUCLEO-F429ZI= board and generate actions or events on a falling or rising edge, according to the following diagram:
+
+[[file:assets/FSM.png]]
+
+
+The initial state of the FSM should be BUTTON_UP.
+
+Implement the following functions within main.c:
+
+#+begin_src C
+void debounceFSM_init();      // This function should load the initial state
+void debounceFSM_update();    // This function should read the inputs, resolve the state transition logic, and update the outputs
+
+void buttonPressed();         // This function should toggle the state of LED1
+void buttonReleased();        // This function should toggle the state of LED3
+#+end_src
+
+
+The debounce time should be *40 ms* with a non-blocking delay, similar to the ones implemented in practice 3.
+
+The function =debounceFSM_update()= should be called periodically.
+
+#+begin_src C
+  typedef enum {
+    BUTTON_UP,
+    BUTTON_FALLING,
+    BUTTON_DOWN,
+    BUTTON_RAISING,
+  } debounceState_t;
+#+end_src
+
+
+* Español
+** Punto 1:
+Crear un nuevo proyecto como copia del proyecto realizado para la práctica 3.
+
+Implementar una =MEF= anti-rebote que permita leer el estado del pulsador de la
+placa =NUCLEO-F429ZI= y generar acciones o eventos ante un flanco descendente o
+ascendente, de acuerdo al siguiente diagrama:
+
+[[file:assets/FSM.png]]
+
+El estado inicial de la MEF debe ser BUTTON_UP.
+
+Implementar dentro de main.c, las funciones:
+
+#+name:
+#+begin_src C
+  void debounceFSM_init();		// debe cargar el estado inicial
+  void debounceFSM_update();	// debe leer las entradas, resolver la lógica de
+                              // transición de estados y actualizar las salidas
+
+  void buttonPressed();			// debe invertir el estado del LED1
+  void buttonReleased();		// debe invertir el estado del LED3
+
+#+end_src
+
+El tiempo de anti-rebote debe ser de *40 ms* con un retardo *no* bloqueante como los implementados en la práctica 3.
+
+La función =debounceFSM_update()= debe llamarse periódicamente.
+
+#+begin_src C
+  typedef enum {
+    BUTTON_UP,
+    BUTTON_FALLING,
+    BUTTON_DOWN,
+    BUTTON_RAISING,
+  } debounceState_t;
+#+end_src
+
