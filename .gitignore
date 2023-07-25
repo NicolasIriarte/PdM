@@ -64,7 +64,7 @@ tmp/
 *.swp
 *~.nib
 local.properties
-*/.settings/
+# */.settings/
 .settings/
 .loadpath
 .recommenders
@@ -79,7 +79,7 @@ local.properties
 *.pydevproject
 
 # CDT-specific (C/C++ Development Tooling)
-.cproject
+# .cproject
 
 # CDT- autotools
 .autotools
