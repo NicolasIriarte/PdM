@@ -29,6 +29,15 @@ void debounceFSM_update();
  */
 bool_t readKey();
 
+/**
+ * Set a callback to be executed the the ButtonPressed/ButtonReleased event
+ * happen. This is when the internal FSM changes from one state to another.
+ *
+ * If a previous callback exists, this function will override the old one a no
+ * notification will be emitted.
+ *
+ * If you want to remove a callback use as argument of the function `NULL`.
+ */
 void setPressedCallback(Callback callback);
 void setReleasedCallback(Callback callback);
 

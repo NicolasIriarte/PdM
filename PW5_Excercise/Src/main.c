@@ -24,8 +24,8 @@
 #include "API_uart.h"
 
 /**
- * Define the debounce time for the FSM, the button state will be checked at this
- * time interval.
+ * Define the debounce time for the FSM, the button state will be checked at
+ * this time interval.
  */
 #define DEBOUNCE_TIME_MS 40
 
@@ -64,6 +64,10 @@ int main(void) {
 
 	uint32_t current_frequency = 100;
 
+	/**
+	 * Set pressed and released callback. These functions will be called when those
+	 * events happen.
+	 */
 	setPressedCallback(ButtonPressedCallback);
 	setReleasedCallback(ButtonReleasedCallback);
 
@@ -91,6 +95,9 @@ int main(void) {
 	}
 }
 
+/**
+ * The callback should print to the UART the event of pressed and released.
+ */
 static void ButtonPressedCallback(void) {
 	uartSendString("Button pressed\r\n");
 }
